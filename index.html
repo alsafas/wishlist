@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Wishlist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+<body>
+    <div class="wrap">
+      <header>
+        <span class="header-decor wire" aria-hidden="true"><svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><circle cx="100" cy="100" r="92"/><ellipse cx="100" cy="100" rx="92" ry="34"/><ellipse cx="100" cy="100" rx="92" ry="62"/><ellipse cx="100" cy="100" rx="34" ry="92"/><ellipse cx="100" cy="100" rx="62" ry="92"/><ellipse cx="100" cy="100" rx="92" ry="92" transform="rotate(45 100 100)"/><ellipse cx="100" cy="100" rx="92" ry="38" transform="rotate(45 100 100)"/><ellipse cx="100" cy="100" rx="92" ry="38" transform="rotate(-45 100 100)"/><path d="M22 62 Q100 110 178 62"/><path d="M22 138 Q100 90 178 138"/></svg></span><span class="header-decor ovals" aria-hidden="true"><svg viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><ellipse cx="100" cy="28" rx="92" ry="16"/><ellipse cx="100" cy="44" rx="92" ry="16"/><ellipse cx="100" cy="60" rx="92" ry="16"/><ellipse cx="100" cy="76" rx="92" ry="16"/></svg></span><span class="header-decor star1" aria-hidden="true"><svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg></span><span class="header-decor star2" aria-hidden="true"><svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg></span><span class="header-decor burst" aria-hidden="true"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="50" cy="50" r="5" fill="currentColor" stroke="none"/><g stroke-linecap="round"><path d="M50 50 L50 4"/><path d="M50 50 L73 10"/><path d="M50 50 L90 27"/><path d="M50 50 L96 50"/><path d="M50 50 L90 73"/><path d="M50 50 L73 90"/><path d="M50 50 L50 96"/><path d="M50 50 L27 90"/><path d="M50 50 L10 73"/><path d="M50 50 L4 50"/><path d="M50 50 L10 27"/><path d="M50 50 L27 10"/></g></svg></span>
+        <span class="bday">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 21h16M5 21v-6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6M12 13V9M12 5h.01M9.5 6.5c.8-.6 2.2-.6 2.5-1.5.3.9 1.7.9 2.5 1.5"/></svg>
+          <span data-edit="birthday">Birthday · November 19</span>
+        </span>
+        <h1><span data-edit="titleMain">Shahd's</span> <em data-edit="titleEm">wishlist</em><svg class="spark" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg></h1>
+        <p class="lede" data-edit="lede">Each item lists the <strong>exact size, colour, and version</strong> I want, prices in CAD, plus a buy link. <strong>Tap any card</strong> to see more and edit it.</p>
+      </header>
+
+      <nav class="viewnav" aria-label="Choose a view">
+        <button class="viewtab" type="button" data-view="wishlist" aria-selected="true">Wishlist</button>
+        <button class="viewtab" type="button" data-view="vibe" aria-selected="false">Vibe board<span class="count" id="vibeCount"></span></button>
+        <button class="viewtab viewtab-shahd" type="button" data-view="shahd" aria-selected="false">Shahd view · Edit everything</button>
+      </nav>
+
+      <div class="shahd-bar" id="shahdBar" hidden>
+        <h2>Shahd view</h2>
+        <p>This is your editing view. Anything outlined in pink can be tapped and rewritten, including headings, descriptions, sizes, and notes.</p>
+        <p class="edit-hint" style="display:block;margin-top:8px;">Edits save as you make them and stay saved in this browser, even after you close the page. To publish a change so everyone sees it, use Publish to GitHub below.</p>
+        <div class="bar-btns">
+          <button class="btn primary" type="button" id="shahdDoneBtn" style="flex:none;">Done, back to Wishlist</button>
+          <button class="btn ghost" type="button" id="shahdVibeBtn" style="flex:none;">Edit the Vibe board</button>
+        </div>
+        <div class="dash-grid">
+          <div class="dash-card" id="ghPublishCard">
+            <h3>Publish to GitHub</h3>
+            <p>Send your edits to the public page. Save a token once, then the button below publishes the wishlist as it is now.</p>
+            <label class="f">GitHub token
+              <input id="ghTokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your token here" />
+            </label>
+            <div class="gh-btn-row">
+              <button class="btn primary" type="button" id="ghTokenSaveBtn">Save token</button>
+              <button class="btn ghost" type="button" id="ghTokenRemoveBtn" hidden>Remove token</button>
+            </div>
+            <p class="gh-status" id="ghTokenStatus" role="status"></p>
+            <div class="gh-publish">
+              <button class="btn primary" type="button" id="ghSaveBtn">Save changes to GitHub</button>
+              <button class="btn ghost" type="button" id="ghDownloadBtn">Download data.json</button>
+              <p class="gh-status" id="ghSaveStatus" role="status"></p>
+              <p class="fineprint">The download needs no token. Upload the downloaded data.json to the repo and the public page updates too.</p>
+            </div>
+          </div>
+          <div class="dash-card">
+            <h3>Add a vibe photo</h3>
+            <p>For the Vibe board. Paste a photo link, or pick a photo from your device.</p>
+            <form id="vibeAddForm">
+              <label class="f">Photo link<input name="src" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
+              <label class="f">Or pick a photo<input name="file" type="file" accept="image/*" /></label>
+              <label class="f">Caption<input name="caption" placeholder="e.g. Shark snack bowls" /></label>
+              <label class="f">Why I love it<input name="note" placeholder="Short note, optional" /></label>
+              <button class="btn primary" type="submit">Add to Vibe board</button>
+              <div class="toast" id="vibeToast">Added to the Vibe board.</div>
+            </form>
+          </div>
+          <div class="dash-card">
+            <h3>Add a gift card</h3>
+            <p>Shows in the Gift cards section, with no price.</p>
+            <form id="gcAddForm">
+              <label class="f">Store name<input name="name" required placeholder="e.g. Indigo" /></label>
+              <label class="f">What it is for<input name="use" placeholder="e.g. Books and cute stationery." /></label>
+              <button class="btn primary" type="submit">Add gift card</button>
+            </form>
+          </div>
+          <div class="dash-card">
+            <h3>Add a little food</h3>
+            <p>Shows in the Little foods section.</p>
+            <form id="foodAddForm">
+              <label class="f">Name<input name="name" required placeholder="e.g. Macarons" /></label>
+              <label class="f">Description<input name="desc" placeholder="Short and sweet." /></label>
+              <button class="btn primary" type="submit">Add little food</button>
+            </form>
+          </div>
+          <div class="dash-card">
+            <h3>Add a brand</h3>
+            <p>Adds a chip to the Brands I love card.</p>
+            <form id="brandAddForm">
+              <label class="f">Brand name<input name="name" required placeholder="e.g. Coach" /></label>
+              <button class="btn primary" type="submit">Add brand</button>
+            </form>
+            <p style="margin-top:12px;">Sizes, gift cards, little foods, brands, and vibe captions can all be edited in place on the page below. Items open for editing when you tap their card.</p>
+          </div>
+          <div class="dash-card">
+            <h3>Add a size block</h3>
+            <p>Adds a block under My sizes. Remove any block with its × button.</p>
+            <form id="specAddForm">
+              <label class="f">Label<input name="k" required placeholder="e.g. Hats" /></label>
+              <label class="f">Value<input name="v" required placeholder="e.g. Medium" /></label>
+              <label class="f">Note (optional)<input name="n" placeholder="Anything extra" /></label>
+              <button class="btn primary" type="submit">Add size block</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="specs" id="specs" aria-label="Shahd's sizes and specifications">
+        <button class="specs-head" id="specsToggle" type="button" aria-expanded="false" aria-controls="specsBody">
+          <span class="t" data-edit="sizesTitle">My sizes</span>
+          <span class="sum" data-edit="sizesSummary">Shoes 9 · UGG 10 · Tops M · Bottoms L</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="specs-body" id="specsBody">
+          <div class="spec-grid" id="specGrid"></div>
+          <div class="inline-add">
+            <p class="ia-title">Add a size block</p>
+            <form class="inline-form" id="specInlineForm">
+              <input name="k" required placeholder="Label, e.g. Hats" aria-label="Size block label" />
+              <input name="v" required placeholder="Value, e.g. Medium" aria-label="Size block value" />
+              <input name="n" placeholder="Note (optional)" aria-label="Size block note" />
+              <button type="submit">Add block</button>
+            </form>
+            <p class="edit-hint">In Shahd view or Manage mode, tap the × on any block to remove it. Removals can be undone.</p>
+          </div>
+        </div>
+      </div>
+
+      <section class="block" id="more-ideas" style="margin-top:34px;">
+        <h2><span data-edit="loveTitle">Handmade, experiences, and the vibe</span><svg class="star-inline" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg></h2>
+        <p class="sub" data-edit="loveSub">Start here if you are stuck.</p>
+        <div class="love-grid">
+          <div class="love-card">
+            <span class="rank" data-edit="love1rank">My number 1</span>
+            <h3 data-edit="love1title">Handmade, drawings, and art</h3>
+            <p data-edit="love1text">A drawing, painting, or anything made by hand, always my favourite gift.</p>
+          </div>
+          <div class="love-card">
+            <span class="rank" data-edit="love2rank">Do it together</span>
+            <h3 data-edit="love2title">Experiences</h3>
+            <ul>
+              <li><strong data-edit="exp1">Escape rooms</strong></li>
+              <li><strong data-edit="exp2">Pottery painting</strong></li>
+              <li><strong data-edit="exp3">Pottery making</strong></li>
+              <li><strong data-edit="exp4">Manicure or pedicure</strong></li>
+            </ul>
+          </div>
+          <div class="love-card">
+            <span class="rank" data-edit="love3rank">Brands I love</span>
+            <h3 data-edit="love3title">Names that make me happy</h3>
+            <p data-edit="love3text">Anything small from these is a safe bet:</p>
+            <div class="brand-chips" id="brandChips">
+              <span class="chip">Vivienne Westwood</span>
+              <span class="chip">Prada</span>
+              <span class="chip">Dior</span>
+              <span class="chip">Flower Knows</span>
+            </div>
+          </div>
+        </div>
+        <div class="vibe-panel vibe-panel-text">
+          <div class="vibe-body">
+            <h3 data-edit="vibeTitle">The vibe</h3>
+            <p data-edit="vibeText">Things I love the look of, even when <strong>I have no idea where they are from</strong>. Cute, a bit silly, dreamy or whimsical. Photos of that kind of thing now live on the Vibe board.</p>
+            <div class="vibe-btns">
+              <button class="pin-btn" type="button" id="goVibeBtn">See the Vibe board</button>
+              <a class="pin-btn pinterest" href="https://pin.it/2zMBfWgs5" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.08 2.45 7.58 5.96 9.13-.08-.78-.16-1.98.03-2.83.17-.73 1.1-4.65 1.1-4.65s-.28-.56-.28-1.39c0-1.3.75-2.27 1.69-2.27.8 0 1.18.6 1.18 1.31 0 .8-.51 2-.77 3.11-.22.93.46 1.68 1.37 1.68 1.65 0 2.92-1.74 2.92-4.25 0-2.22-1.6-3.78-3.88-3.78-2.64 0-4.2 1.98-4.2 4.03 0 .8.31 1.66.69 2.12.08.09.09.17.07.26-.07.31-.24.98-.27 1.11-.04.18-.14.22-.33.13-1.25-.58-2.03-2.4-2.03-3.87 0-3.15 2.29-6.04 6.6-6.04 3.46 0 6.16 2.47 6.16 5.77 0 3.44-2.17 6.22-5.19 6.22-1.01 0-1.97-.53-2.29-1.15l-.62 2.37c-.23.87-.84 1.96-1.25 2.62.94.29 1.94.45 2.97.45 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>See my Pinterest board</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" id="vibeView" hidden style="margin-top:34px;">
+        <h2><span data-edit="vibeBoardTitle">Vibe board</span><svg class="star-inline" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg></h2>
+        <p class="sub" data-edit="vibeBoardSub">Things I love the look of, even when I do not know where they are from.</p>
+        <div class="vibe-grid" id="vibeGrid"></div>
+        <div class="vibe-empty" id="vibeEmpty" hidden>No photos here yet. Add one in Shahd view.</div>
+        <div class="vibe-actions">
+          <a class="pin-btn pinterest" href="https://pin.it/2zMBfWgs5" target="_blank" rel="noopener">See my Pinterest board</a>
+          <span class="edit-hint">In Shahd view you can rewrite captions, remove photos, and add new ones.</span>
+        </div>
+      </section>
+
+      <div class="filterbar">
+        <div class="tabs" role="tablist" aria-label="Filter by price range" id="tabs"></div>
+        <div class="cat-section">
+          <p class="cat-label">Browse by type</p>
+          <div class="tabs cat-tabs" role="tablist" aria-label="Filter by category" id="catTabs"></div>
+        </div>
+        <div class="sortrow">
+          <label for="sort">Sort by</label>
+          <select id="sort">
+            <option value="want">Most wanted first</option>
+            <option value="added">Date added: newest first</option>
+            <option value="low">Price: cheap to expensive</option>
+            <option value="high">Price: expensive to cheap</option>
+            <option value="name">Name A to Z</option>
+          </select>
+          <span class="result-note" id="resultNote"></span>
+          <div class="tools">
+            <button class="tool" id="viewBtn" type="button" aria-pressed="false" title="Switch between compact and large cards">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
+              <span id="viewBtnLabel">Large</span>
+            </button>
+            <button class="tool" id="manageBtn" type="button" aria-pressed="false" title="Edit or remove items">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg>
+              Manage
+            </button>
+          </div>
+        </div>
+        <div class="set-filter-bar" id="setFilterBar" role="status">
+          <span>Showing just the <strong id="setFilterName"></strong> set, so you can see everything that goes together.</span>
+          <button type="button" id="setFilterClear">Clear set filter</button>
+        </div>
+        <div class="managebar" id="managebar">
+          <strong>You're managing the list.</strong> <span data-edit="manageNote">Tap a card to edit it, tap hearts to change want level, Remove to take something off. Removals can be undone. For everything else, use Shahd view at the top.</span>
+        </div>
+      </div>
+
+      <main>
+        <div class="grid" id="grid"></div>
+        <div class="empty" id="empty">
+          <strong>Nothing matches those filters</strong>
+          Try a different price range or type, or a gift card below.
+        </div>
+
+        <section class="block" id="receivedSection" hidden>
+          <h2><span>Received</span><svg class="star-inline" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg></h2>
+          <p class="sub">Things I have already been given. They are crossed off the wishlist and kept here, not deleted. Tap one and untick Received to put it back.</p>
+          <div class="grid" id="receivedGrid"></div>
+        </section>
+
+        <section class="block" id="giftcards">
+          <h2><span data-edit="gcTitle">Gift cards I love</span><svg class="star-inline" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg></h2>
+          <p class="sub" data-edit="gcSub">Any amount is appreciated.</p>
+          <div class="gc-grid" id="gcGrid"></div>
+          <div class="inline-add">
+            <p class="ia-title">Add a gift card</p>
+            <form class="inline-form" id="gcInlineForm">
+              <input name="name" required placeholder="Store name, e.g. Indigo" aria-label="Gift card store name" />
+              <input name="use" placeholder="What it is for (optional)" aria-label="Gift card use" />
+              <button type="submit">Add gift card</button>
+            </form>
+            <p class="edit-hint">Tap the × on any card to remove it. Removals can be undone.</p>
+          </div>
+        </section>
+
+        <section class="block" id="little-foods">
+          <h2><span data-edit="foodTitle">Little foods</span><svg class="star-inline" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg></h2>
+          <p class="sub" data-edit="foodSub">Small treats count as a real gift.</p>
+          <div class="food-grid" id="foodGrid"></div>
+          <div class="inline-add">
+            <p class="ia-title">Add a little food</p>
+            <form class="inline-form" id="foodInlineForm">
+              <input name="name" required placeholder="Name, e.g. Macarons" aria-label="Little food name" />
+              <input name="desc" placeholder="Description (optional)" aria-label="Little food description" />
+              <button type="submit">Add little food</button>
+            </form>
+            <p class="edit-hint">Tap the × on any card to remove it. Removals can be undone.</p>
+          </div>
+        </section>
+
+        <section class="block">
+          <div class="panels">
+            <div class="panel">
+              <h2><span data-edit="addTitle">Add an item</span><svg class="star-inline" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg></h2>
+              <p class="sub" data-edit="addSub">Add it here and it shows in the list right away.</p>
+              <form id="addForm">
+                <label class="f">Item name<input name="name" required placeholder="e.g. lululemon Define Jacket" /></label>
+                <div class="row">
+                  <label class="f">Price (CAD)<input name="price" type="number" min="0" step="0.01" required placeholder="79.95" /></label>
+                  <label class="f">Store<input name="store" placeholder="e.g. Sephora" /></label>
+                </div>
+                <label class="f">Category
+                  <select name="category">
+                    <option value="clothes">Clothes</option>
+                    <option value="shoes">Shoes</option>
+                    <option value="jewellery">Jewellery</option>
+                    <option value="makeup">Makeup &amp; Beauty</option>
+                    <option value="home">Home</option>
+                    <option value="stationery">Stationery</option>
+                    <option value="books">Books</option>
+                    <option value="fun">Fun &amp; Knick-knacks</option>
+                    <option value="food">Little Foods</option>
+                    <option value="other">Other</option>
+                  </select>
+                </label>
+                <div class="row">
+                  <label class="f">Size / version / colour<input name="variant" placeholder="e.g. Size M, black" /></label>
+                  <label class="f">How much do you want it?
+                    <select name="want">
+                      <option value="5">5 · The one I want most</option>
+                      <option value="4" selected>4 · Really want it</option>
+                      <option value="3">3 · Would love it</option>
+                      <option value="2">2 · Nice to have</option>
+                      <option value="1">1 · Only if it's on sale</option>
+                    </select>
+                  </label>
+                </div>
+                <label class="f">Link to buy it<input name="url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
+                <label class="f">Image link (optional)<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://… paste a photo link" /></label>
+                <label class="f">How I feel about it / note (optional)<input name="note" placeholder="Why you want it, anything the buyer should know" /></label>
+                <button class="btn primary" type="submit">Add to wishlist</button>
+                <div class="toast" id="addToast">Added. It is in the list above and stays saved in this browser. Mention it in chat with Pip to put it on the shared link too.</div>
+              </form>
+            </div>
+
+            <div class="panel" id="share">
+              <h2><span data-edit="shareTitle">Share this wishlist</span><svg class="star-inline" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg></h2>
+              <p class="sub" data-edit="shareSub">Send the list in whatever form suits them.</p>
+              <button class="btn primary" id="copyBtn" type="button">Copy the whole list as text</button>
+          <button class="btn ghost" id="downloadBtn" type="button">Download a shareable copy (.html)</button>
+              <button class="btn ghost" id="downloadTxtBtn" type="button">Download as a text file (.txt)</button>
+              <div class="toast" id="shareToast">Copied. Paste it anywhere.</div>
+              <p class="fineprint">The .html download is a full wishlist page with every item, size, price, and link. Edits and removals here are included.</p>
+              <p class="fineprint">Or tell Pip in chat to add something to the shared link for everyone.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer><svg class="star-inline" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><path d="M50 0 L58 38 L100 50 L58 62 L50 100 L42 62 L0 50 L42 38 Z"/></svg><span data-edit="footerNote">Prices checked Nov 14, 2026 on Canadian sites; they can change or sell out.</span></footer>
+    </div>
+
+    <div class="overlay" id="editOverlay" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+      <div class="dialog">
+        <h2 id="editTitle">Edit item</h2>
+        <p class="sub">Changes save right away and stay saved in this browser.</p>
+        <form id="editForm">
+          <label class="f">Item name<input name="name" required /></label>
+          <div class="row">
+            <label class="f">Price (CAD)<input name="price" type="number" min="0" step="0.01" required /></label>
+            <label class="f">Store<input name="store" /></label>
+          </div>
+          <label class="f">Category
+            <select name="category">
+              <option value="clothes">Clothes</option>
+              <option value="shoes">Shoes</option>
+              <option value="jewellery">Jewellery</option>
+              <option value="makeup">Makeup &amp; Beauty</option>
+              <option value="home">Home</option>
+              <option value="stationery">Stationery</option>
+              <option value="books">Books</option>
+              <option value="fun">Fun &amp; Knick-knacks</option>
+              <option value="food">Little Foods</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="f">Size / version / colour<input name="variant" /></label>
+          <div class="wp-label" style="font-size:.85rem;font-weight:600;">How much do you want it?</div>
+          <div class="wantpick">
+            <span class="hearts" id="editHearts"></span>
+            <span class="wp-text" id="editWantText"></span>
+          </div>
+          <label class="f">Link to buy it<input name="url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
+          <label class="f">Image link<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
+          <label class="f">How I feel about it / note<input name="note" /></label>
+          <div class="actions">
+            <button class="btn primary" type="submit">Save changes</button>
+            <button class="btn cancel" type="button" id="editCancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="overlay" id="detailOverlay" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <div class="dialog detail-dialog">
+        <div class="detail-dialog-wrap">
+          <button type="button" class="detail-close" id="detailClose" aria-label="Close details">&times;</button>
+          <div id="detailContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="undo-toast" id="undoToast" role="status">
+      <span id="undoMsg">Removed.</span>
+      <button type="button" id="undoBtn">Undo</button>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
