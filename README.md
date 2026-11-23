@@ -68,7 +68,8 @@ If the repository is public, anyone with the link can see the wishlist, includin
 
 ## Editing the content
 
-- To change an item, price, or note, edit `data.json` and re-upload it. Keep the same shape for each item: `id`, `category`, `name`, `store`, `price`, `want` (0 to 5), `variant`, `img`, `url`, `gtk`, `note`, `addedSeq`.
-- Page headings, descriptions, and the brands list live under `pageText` in `data.json`; edit the values there to change them.
+- To change an item, price, or note, edit `data.json` and re-upload it. Keep the same shape for each item: `id`, `category`, `name`, `store`, `price`, `want` (0 to 5), `variant`, `img`, `imgNote`, `url`, `gtk`, `note`, `addedSeq`.
+- An item does not need a photo. Leave `img` empty and set `imgNote` to the note shown in the photo area instead, for example "Any cute mug, pink if they have it". If both are empty, the card shows "No photo yet". A photo link that fails to load falls back to the same note area.
 - To change a photo, add the new image file to `assets/` and point the item's `img` field at it, for example `assets/my-photo.jpg`.
+- Vibe board tiles live under `vibeImages` in `data.json`. Add tiles on the Vibe board tab or in Shahd view, with a photo link, a photo picked from your device, or just a caption with no photo. A picked photo is shrunk to at most 1200px wide before it is saved.
 - To change colours or fonts, edit `styles.css`.

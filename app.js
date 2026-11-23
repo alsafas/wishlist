@@ -356,6 +356,7 @@ var currentView = 'wishlist';
         f.elements['variant'].value = it.variant || '';
         f.elements['url'].value = it.url || '';
         f.elements['img'].value = it.img || '';
+        f.elements['imgNote'].value = it.imgNote || '';
         f.elements['note'].value = it.note || '';
         renderEditHearts();
         document.getElementById('editOverlay').classList.add('open');
@@ -377,6 +378,7 @@ var currentView = 'wishlist';
         it.category = (f.get('category') || 'other').toString().trim() || 'other';
         it.url = (f.get('url') || '').toString().trim();
         it.img = (f.get('img') || '').toString().trim();
+        it.imgNote = (f.get('imgNote') || '').toString().trim();
         it.note = (f.get('note') || '').toString().trim();
         it.want = editWant;
         closeEdit(); render(); renderReceived(); persist();
@@ -414,7 +416,9 @@ var currentView = 'wishlist';
       function openDetail(id){
         var it = byId(id); if (!it) return;
         detailWant = it.want;
-        var photo = it.img ? '<div class="detail-photo"><img src="' + esc(it.img) + '" alt="' + esc(it.name) + '" /></div>' : '<div class="detail-photo noimg">' + esc(it.name) + '</div>';
+        var photo = it.img
+          ? '<div class="detail-photo"><img src="' + esc(it.img) + '" alt="' + esc(it.name) + '" /></div>'
+          : '<div class="detail-photo noimg photo-note"><span>' + esc(photoNoteText(it)) + '</span></div>';
         var catOptions = '';
         CATEGORIES.forEach(function(c){
           if (c.id === 'all') return;
@@ -437,12 +441,19 @@ var currentView = 'wishlist';
           '<div class="detail-section detail-feel"><h3>How I feel about it</h3><label class="f" style="margin:0;"><textarea name="note" rows="3" placeholder="The colour or style you want, if there is one">' + esc(it.note || '') + '</textarea></label></div>' +
           '<div class="detail-section"><h3>Good to know</h3><label class="f" style="margin:0;"><textarea name="gtk" rows="3" placeholder="The facts: edition, size, colour, store, availability">' + esc(it.gtk || '') + '</textarea></label>' +
             '<label class="f" style="margin-top:10px;">Link to buy it<input name="url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" value="' + esc(it.url || '') + '" /></label>' +
-            '<label class="f" style="margin-bottom:0;">Image link<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" value="' + esc(it.img || '') + '" /></label></div>' +
+            '<label class="f" style="margin-bottom:0;">Image link<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" value="' + esc(it.img || '') + '" /></label>' +
+            '<label class="f" style="margin-top:10px;">Note to show instead of a photo<input name="imgNote" type="text" placeholder="Shown when there is no photo" value="' + esc(it.imgNote || '') + '" /></label></div>' +
           '<label class="received-check"><input type="checkbox" id="detailReceived"' + (it.received ? ' checked' : '') + ' /><span class="rc-text"><strong>Received</strong><span>Tick this once it has been given to me. It crosses off the wishlist and moves to the Received section, not deleted.</span></span></label>' +
           '<div class="detail-buy"><button type="submit" class="btn detail-save-btn">Save changes</button>' + (it.url ? '<a href="' + esc(it.url) + '" target="_blank" rel="noopener">Buy this at ' + esc(it.store || 'the store') + '</a>' : '') + '<button type="button" class="btn detail-delete-btn" id="detailDeleteBtn">Delete this item</button><button type="button" class="btn ghost" id="detailCloseBtn" style="width:auto;margin-top:0;">Close</button></div>' +
           '</form></div>';
         document.getElementById('detailContent').innerHTML = html;
         document.getElementById('detailOverlay').classList.add('open');
+        var dimg = document.querySelector('#detailContent .detail-photo img');
+        if (dimg) dimg.addEventListener('error', function(){
+          var wrap = dimg.closest('.detail-photo'); if (!wrap) return;
+          wrap.classList.add('noimg', 'photo-note');
+          wrap.innerHTML = '<span>' + esc(photoNoteText(it)) + '</span>';
+        });
         function paintDetailHearts(){
           var s = '';
           for (var i = 1; i <= 5; i++) s += '<button type="button" class="hbtn" data-w="' + i + '" aria-label="Set want level to ' + i + '"><span class="' + (i <= detailWant ? 'on' : 'off') + '">' + HEART + '</span></button>';
@@ -475,6 +486,7 @@ var currentView = 'wishlist';
           it.category = (f.get('category') || 'other').toString().trim() || 'other';
           it.url = (f.get('url') || '').toString().trim();
           it.img = (f.get('img') || '').toString().trim();
+          it.imgNote = (f.get('imgNote') || '').toString().trim();
           it.note = (f.get('note') || '').toString().trim();
           it.gtk = (f.get('gtk') || '').toString().trim();
           it.want = detailWant;
@@ -513,6 +525,29 @@ var currentView = 'wishlist';
         return s;
       }
 
+      /* ---------- photos: an item can have no photo, and show a note instead ----------
+         photoNoteText is what the photo area shows when there is no image:
+         the note Shahd wrote for that, or "No photo yet". The same area is
+         used when an image link fails to load. */
+      function photoNoteText(it){ return (it && it.imgNote ? String(it.imgNote).trim() : '') || 'No photo yet'; }
+      function photoHTML(it){
+        if (it.img){
+          return '<button type="button" class="photo detail-open" data-id="' + esc(it.id) + '" aria-label="View and edit ' + esc(it.name) + '"><img src="' + esc(it.img) + '" alt="' + esc(it.name) + '" loading="lazy" /></button>';
+        }
+        return '<button type="button" class="photo noimg photo-note detail-open" data-id="' + esc(it.id) + '" aria-label="View and edit ' + esc(it.name) + '"><span>' + esc(photoNoteText(it)) + '</span></button>';
+      }
+      function bindPhotoErrors(scope){
+        if (!scope) return;
+        scope.querySelectorAll('.photo img').forEach(function(im){
+          im.addEventListener('error', function(){
+            var btn = im.closest('.photo'); if (!btn) return;
+            var item = byId(btn.getAttribute('data-id'));
+            btn.classList.add('noimg', 'photo-note');
+            btn.innerHTML = '<span>' + esc(item ? photoNoteText(item) : 'No photo yet') + '</span>';
+          });
+        });
+      }
+
       function render(){
         renderTabs();
         var range = RANGES.filter(function(r){ return r.id === activeRange; })[0];
@@ -530,9 +565,7 @@ var currentView = 'wishlist';
         var grid = document.getElementById('grid'); grid.innerHTML = '';
         list.forEach(function(it){
           var card = document.createElement('article'); card.className = 'card is-clickable'; card.setAttribute('data-card-id', it.id); card.setAttribute('title', 'Tap to view and edit');
-          var photo = it.img
-            ? '<button type="button" class="photo detail-open" data-id="' + esc(it.id) + '" aria-label="View and edit ' + esc(it.name) + '"><img src="' + esc(it.img) + '" alt="' + esc(it.name) + '" loading="lazy" /></button>'
-            : '<button type="button" class="photo noimg detail-open" data-id="' + esc(it.id) + '" aria-label="View and edit ' + esc(it.name) + '">' + esc(it.name) + '</button>';
+          var photo = photoHTML(it);
           var buy = it.url
             ? '<div class="buy"><a href="' + esc(it.url) + '" target="_blank" rel="noopener">Buy this at ' + esc(it.store || 'the store') + '</a></div>'
             : '';
@@ -553,6 +586,7 @@ var currentView = 'wishlist';
             '</div>';
           grid.appendChild(card);
         });
+        bindPhotoErrors(grid);
         grid.querySelectorAll('.hbtn').forEach(function(b){
           b.addEventListener('click', function(){
             var it = byId(b.getAttribute('data-id'));
@@ -607,9 +641,7 @@ var currentView = 'wishlist';
         g.innerHTML = '';
         list.forEach(function(it){
           var card = document.createElement('article'); card.className = 'card is-clickable'; card.setAttribute('data-card-id', it.id); card.setAttribute('title', 'Tap to view, edit, or restore');
-          var photo = it.img
-            ? '<button type="button" class="photo detail-open" data-id="' + esc(it.id) + '" aria-label="View and edit ' + esc(it.name) + '"><img src="' + esc(it.img) + '" alt="' + esc(it.name) + '" loading="lazy" /></button>'
-            : '<button type="button" class="photo noimg detail-open" data-id="' + esc(it.id) + '" aria-label="View and edit ' + esc(it.name) + '">' + esc(it.name) + '</button>';
+          var photo = photoHTML(it);
           card.innerHTML = photo +
             '<div class="body">' +
               '<div class="top"><div><h3><button type="button" class="title-btn detail-open" data-id="' + esc(it.id) + '">' + esc(it.name) + '</button></h3><div class="store">' + esc(it.store || '') + '</div></div>' +
@@ -620,6 +652,7 @@ var currentView = 'wishlist';
             '</div>';
           g.appendChild(card);
         });
+        bindPhotoErrors(g);
         g.querySelectorAll('.detail-open').forEach(function(b){
           b.addEventListener('click', function(e){ e.stopPropagation(); openDetail(b.getAttribute('data-id')); });
         });
@@ -698,12 +731,16 @@ var currentView = 'wishlist';
       function renderVibe(){
         var g = document.getElementById('vibeGrid'); if (!g) return; g.innerHTML = '';
         vibeImages.forEach(function(v){
-          var d = document.createElement('article'); d.className = 'vibe-tile';
+          var d = document.createElement('article'); d.className = 'vibe-tile' + (v.src ? '' : ' vibe-note-tile');
+          var photo = v.src
+            ? '<div class="vphoto"><img src="' + esc(v.src) + '" alt="' + esc(v.caption) + '" loading="lazy" /></div>'
+            : '<div class="vphoto vnote-photo"><span class="dyn-edit" data-vibe="' + esc(v.id) + '" data-field="caption">' + esc(v.caption) + '</span></div>';
+          var body = v.src
+            ? '<div class="vbody"><div class="vcap"><span class="dyn-edit" data-vibe="' + esc(v.id) + '" data-field="caption">' + esc(v.caption) + '</span></div>' +
+              '<p class="vnote"><span class="dyn-edit" data-vibe="' + esc(v.id) + '" data-field="note">' + esc(v.note || '') + '</span></p></div>'
+            : '<div class="vbody"><p class="vnote"><span class="dyn-edit" data-vibe="' + esc(v.id) + '" data-field="note">' + esc(v.note || '') + '</span></p></div>';
           d.innerHTML = '<button type="button" class="vremove" data-id="' + esc(v.id) + '" aria-label="Remove ' + esc(v.caption) + '">&times;</button>' +
-            '<div class="vphoto"><img src="' + esc(v.src) + '" alt="' + esc(v.caption) + '" loading="lazy" /></div>' +
-            '<div class="vbody"><div class="vcap"><span class="dyn-edit" data-vibe="' + esc(v.id) + '" data-field="caption">' + esc(v.caption) + '</span></div>' +
-            (v.note ? '<p class="vnote"><span class="dyn-edit" data-vibe="' + esc(v.id) + '" data-field="note">' + esc(v.note) + '</span></p>' : '<p class="vnote"><span class="dyn-edit" data-vibe="' + esc(v.id) + '" data-field="note"></span></p>') +
-            '</div>';
+            photo + body;
           g.appendChild(d);
         });
         var c = document.getElementById('vibeCount'); if (c) c.textContent = vibeImages.length ? String(vibeImages.length) : '';
@@ -801,10 +838,12 @@ var currentView = 'wishlist';
             (it.variant ? '<div style="margin-top:6px"><b>Want:</b> ' + esc(it.variant) + '</div>' : '') +
             '<div><b>How much I want it:</b> ' + it.want + '/5</div>' +
             (it.note ? '<p style="color:#555;margin:6px 0">' + esc(it.note) + '</p>' : '') +
+            (!it.img && it.imgNote ? '<p style="color:#555;margin:6px 0">No photo: ' + esc(it.imgNote) + '</p>' : '') +
             (it.url ? '<a href="' + esc(it.url) + '">Buy it here</a>' : '') + '</div>';
         }).join('');
         var vibeRows = vibeImages.map(function(v){
-          return '<div style="border:1px solid #ddd;border-radius:12px;padding:12px;margin:0 0 10px"><img src="' + esc(v.src) + '" alt="' + esc(v.caption) + '" style="max-width:100%;border-radius:8px" /><div style="font-weight:700;margin-top:8px">' + esc(v.caption) + '</div>' + (v.note ? '<div style="color:#555">' + esc(v.note) + '</div>' : '') + '</div>';
+          var img = v.src ? '<img src="' + esc(v.src) + '" alt="' + esc(v.caption) + '" style="max-width:100%;border-radius:8px" />' : '';
+          return '<div style="border:1px solid #ddd;border-radius:12px;padding:12px;margin:0 0 10px">' + img + '<div style="font-weight:700;margin-top:8px">' + esc(v.caption) + '</div>' + (v.note ? '<div style="color:#555">' + esc(v.note) + '</div>' : '') + '</div>';
         }).join('');
         return '<!doctype html><html><head><meta charset="utf-8"><title>Shahd\u2019s Wishlist</title></head>' +
           '<body style="font-family:system-ui,sans-serif;max-width:640px;margin:32px auto;padding:0 16px;color:#222">' +
@@ -845,6 +884,7 @@ var currentView = 'wishlist';
           variant: (f.get('variant') || '').toString().trim(),
           category: (f.get('category') || 'other').toString().trim() || 'other',
           note: (f.get('note') || '').toString().trim(),
+          imgNote: (f.get('imgNote') || '').toString().trim(),
           url: url, img: img, added: true, addedSeq: nextAddedSeq()
         });
         e.target.reset();
@@ -905,25 +945,79 @@ var currentView = 'wishlist';
       });
 
       /* ---------- Shahd view add forms ---------- */
-      document.getElementById('vibeAddForm').addEventListener('submit', function(e){
-        e.preventDefault();
-        var f = new FormData(e.target);
-        var caption = (f.get('caption') || 'Untitled vibe photo').toString().trim() || 'Untitled vibe photo';
-        var note = (f.get('note') || '').toString().trim();
+      /* ---------- Vibe board adds: photo link, or a picked photo, or just a caption ----------
+         A picked photo is shrunk in the browser to at most 1200px wide before
+         it is stored as a data URL, so data.json stays reasonable. A tile with
+         no photo at all is allowed too: it renders as a note tile with its
+         caption. Both the Shahd view form and the form on the Vibe board tab
+         use the same code, and tiles live in vibeImages, so the GitHub save
+         and the data.json download include them. */
+      function downscaleDimensions(w, h, maxW){
+        if (!w || !h) return { width: 0, height: 0 };
+        var scale = Math.min(1, maxW / w);
+        return { width: Math.max(1, Math.round(w * scale)), height: Math.max(1, Math.round(h * scale)) };
+      }
+      function downscaleImageFile(file, done){
+        if (!file || !file.type || file.type.indexOf('image/') !== 0){ done(null); return; }
+        function fallback(){
+          if (typeof FileReader === 'undefined'){ done(null); return; }
+          var reader = new FileReader();
+          reader.onload = function(){ done(String(reader.result)); };
+          reader.onerror = function(){ done(null); };
+          reader.readAsDataURL(file);
+        }
+        try {
+          if (typeof URL === 'undefined' || !URL.createObjectURL || typeof Image === 'undefined' || typeof document === 'undefined' || !document.createElement){ fallback(); return; }
+          var url = URL.createObjectURL(file);
+          var img = new Image();
+          img.onload = function(){
+            try {
+              var size = downscaleDimensions(img.naturalWidth, img.naturalHeight, 1200);
+              if (!size.width || !size.height){ URL.revokeObjectURL(url); fallback(); return; }
+              var canvas = document.createElement('canvas');
+              canvas.width = size.width; canvas.height = size.height;
+              var ctx = canvas.getContext('2d');
+              if (!ctx){ URL.revokeObjectURL(url); fallback(); return; }
+              ctx.drawImage(img, 0, 0, size.width, size.height);
+              URL.revokeObjectURL(url);
+              var type = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+              done(canvas.toDataURL(type, 0.85));
+            } catch (err){ try { URL.revokeObjectURL(url); } catch (e) {} fallback(); }
+          };
+          img.onerror = function(){ try { URL.revokeObjectURL(url); } catch (e) {} fallback(); };
+          img.src = url;
+        } catch (err){ fallback(); }
+      }
+      function addVibeTile(src, caption, note, formEl, toastEl){
+        caption = (caption || '').toString().trim() || 'Untitled vibe photo';
+        vibeImages.push({ id:'vibe-' + Date.now(), src:(src || '').toString().trim(), caption:caption, note:(note || '').toString().trim() });
+        if (formEl) formEl.reset();
+        renderVibe(); applyEditable(); persist();
+        if (toastEl){ toastEl.style.display = 'block'; setTimeout(function(){ toastEl.style.display = 'none'; }, 3000); }
+      }
+      function submitVibeForm(formEl, toastEl){
+        var f = new FormData(formEl);
+        var caption = (f.get('caption') || '').toString();
+        var note = (f.get('note') || '').toString();
         var src = (f.get('src') || '').toString().trim();
         var file = f.get('file');
-        function addWith(s){
-          if (!s) return;
-          vibeImages.push({ id:'vibe-' + Date.now(), src:s, caption:caption, note:note });
-          e.target.reset(); renderVibe(); applyEditable(); persist();
-          var t = document.getElementById('vibeToast'); t.style.display = 'block'; setTimeout(function(){ t.style.display = 'none'; }, 3000);
-          var vs = document.getElementById('vibeView'); if (vs) vs.scrollIntoView({ behavior:'smooth', block:'start' });
-        }
         if (file && file.size){
-          var reader = new FileReader();
-          reader.onload = function(){ addWith(String(reader.result)); };
-          reader.readAsDataURL(file);
-        } else addWith(src);
+          downscaleImageFile(file, function(dataUrl){
+            addVibeTile(dataUrl || src, caption, note, formEl, toastEl);
+          });
+        } else {
+          addVibeTile(src, caption, note, formEl, toastEl);
+        }
+      }
+      document.getElementById('vibeAddForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        submitVibeForm(e.target, document.getElementById('vibeToast'));
+        var vs = document.getElementById('vibeView'); if (vs) vs.scrollIntoView({ behavior:'smooth', block:'start' });
+      });
+      var vibeTabForm = document.getElementById('vibeTabForm');
+      if (vibeTabForm) vibeTabForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        submitVibeForm(e.target, document.getElementById('vibeTabToast'));
       });
       document.getElementById('gcAddForm').addEventListener('submit', function(e){
         e.preventDefault();

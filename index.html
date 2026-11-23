@@ -177,6 +177,18 @@
         <p class="sub" data-edit="vibeBoardSub">Things I love the look of, even when I do not know where they are from.</p>
         <div class="vibe-grid" id="vibeGrid"></div>
         <div class="vibe-empty" id="vibeEmpty" hidden>No photos here yet. Add one in Shahd view.</div>
+        <div class="inline-add vibe-add" id="vibeTabAdd">
+          <p class="ia-title">Add to Vibe board</p>
+          <form id="vibeTabForm">
+            <label class="f">Photo link<input name="src" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
+            <label class="f">Or pick a photo<input name="file" type="file" accept="image/*" /></label>
+            <label class="f">Caption<input name="caption" placeholder="e.g. Shark snack bowls" /></label>
+            <label class="f">Why I love it<input name="note" placeholder="Short note, optional" /></label>
+            <button class="btn primary" type="submit">Add to Vibe board</button>
+          </form>
+          <div class="toast" id="vibeTabToast">Added to the Vibe board.</div>
+          <p class="edit-hint">A caption on its own works too, no photo needed. A photo you pick is shrunk to at most 1200px wide before it is saved.</p>
+        </div>
         <div class="vibe-actions">
           <a class="pin-btn pinterest" href="https://pin.it/2zMBfWgs5" target="_blank" rel="noopener">See my Pinterest board</a>
           <span class="edit-hint">In Shahd view you can rewrite captions, remove photos, and add new ones.</span>
@@ -301,6 +313,7 @@
                 </div>
                 <label class="f">Link to buy it<input name="url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
                 <label class="f">Image link (optional)<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://… paste a photo link" /></label>
+                <label class="f">Note to show instead of a photo (optional)<input name="imgNote" placeholder="e.g. Any cute mug, pink if they have it" /></label>
                 <label class="f">How I feel about it / note (optional)<input name="note" placeholder="Why you want it, anything the buyer should know" /></label>
                 <button class="btn primary" type="submit">Add to wishlist</button>
                 <div class="toast" id="addToast">Added. It is in the list above and stays saved in this browser. Mention it in chat with Pip to put it on the shared link too.</div>
@@ -356,6 +369,7 @@
           </div>
           <label class="f">Link to buy it<input name="url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
           <label class="f">Image link<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
+          <label class="f">Note to show instead of a photo<input name="imgNote" placeholder="Shown when there is no photo" /></label>
           <label class="f">How I feel about it / note<input name="note" /></label>
           <div class="actions">
             <button class="btn primary" type="submit">Save changes</button>
