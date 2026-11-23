@@ -119,13 +119,14 @@
       "name": "Smiski Glow-In-The-Dark Blind Box Figure",
       "store": "Urban Outfitters",
       "price": 16,
-      "want": 4,
+      "want": 3,
       "variant": "Any series · one surprise figure per box",
       "img": "assets/smiski-blindbox.webp",
       "url": "https://www.urbanoutfitters.com/en-ca/shop/smiski-glow-in-the-dark-blind-box-figure",
       "gtk": "Blind box.",
       "note": "",
-      "addedSeq": 8
+      "addedSeq": 8,
+      "imgNote": ""
     },
     {
       "id": "smiski-keychain",
