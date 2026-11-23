@@ -487,12 +487,13 @@
       "store": "Starface World Canada",
       "price": 20,
       "want": 4,
-      "variant": "Big Yellow · 32 patches",
+      "variant": "the colourful ones! or black · i want box",
       "img": "assets/starface-hydro-stars.jpg",
       "url": "https://starfaceworld.ca/products/hydro-stars-big-yellow?variant=35139279224981",
       "gtk": "32 classic yellow star hydrocolloid patches in a mirrored yellow compact. Clinically proven to shrink pimples in 6 hours.",
-      "note": "",
-      "addedSeq": 36
+      "note": "i like the box but i also want the patches , but not really the yellow ones",
+      "addedSeq": 36,
+      "imgNote": ""
     },
     {
       "id": "artkal-mini-beads",
