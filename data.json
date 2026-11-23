@@ -961,20 +961,6 @@
       "addedSeq": 70
     },
     {
-      "id": "monster-high-frankie-stein",
-      "category": "fun",
-      "name": "Monster High Frankie Stein Doll with Pet Watzie",
-      "store": "Best Buy Canada",
-      "price": 49.99,
-      "want": 0,
-      "variant": "Core Refresh · with Watzie",
-      "img": "assets/monster-high-frankie-stein.jpg",
-      "url": "https://www.bestbuy.ca/en-CA/product/monster-high-frankie-stein-doll-includes-pet-dog-watzie/19383778",
-      "gtk": "Frankie Stein doll with pet dog Watzie, Core Refresh version.",
-      "note": "",
-      "addedSeq": 71
-    },
-    {
       "id": "blythe-custom-doll",
       "category": "fun",
       "name": "Blythe Custom Doll (OOAK)",
