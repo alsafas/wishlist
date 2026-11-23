@@ -1159,13 +1159,14 @@
       "name": "POP MART Peach Riot: Lil Peach Riot Holiday Mixtape Series Figures",
       "store": "A&C Games",
       "price": 26.99,
-      "want": 0,
+      "want": 3,
       "variant": "1 random blind box",
       "img": "assets/peach-riot-blind-box.jpg",
       "url": "https://acgamesonline.com/products/pop-mart-peach-riot-lil-peach-riot-holiday-mixtape-series-figures-1-random-blind-box",
       "gtk": "Genuine Peach Riot blind-box figure series, 100% authentic.",
       "note": "",
-      "addedSeq": 86
+      "addedSeq": 86,
+      "imgNote": ""
     },
     {
       "id": "pla75-keyboard-kit",
