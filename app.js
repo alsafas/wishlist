@@ -217,6 +217,10 @@ var currentView = 'wishlist';
             texts: texts, brands: brands
           }));
         } catch (err) { /* storage unavailable in this browser: edits still apply for this visit */ }
+        /* Every edit goes through here, so this is also where auto-save
+           starts: a few seconds after the last change, the edit publishes
+           itself to GitHub. See scheduleGhAutoSave in the GitHub section. */
+        scheduleGhAutoSave();
       }
       function loadSaved(){
         var raw = null;
@@ -1308,6 +1312,45 @@ var currentView = 'wishlist';
         download('data.json', ghDataText(), 'application/json');
         ghSetStatus('Downloaded data.json with your edits. Upload it to the repo and the public page updates too.');
       });
+      /* One shared save path, used by the manual button and by auto-save.
+         It sends the wishlist as it is now to data.json in the repo. The
+         text it sends is remembered, so a later save with nothing new to
+         send is skipped instead of making an empty commit. */
+      function ghSaveToGitHub(){
+        var token = ghGetToken();
+        var text = ghDataText();
+        return fetch(GH_API_URL, { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } })
+          .then(function(res){
+            if (res.status === 401) throw new Error('token');
+            if (res.status === 404) throw new Error('notfound');
+            if (!res.ok) throw new Error('getfailed');
+            return res.json();
+          })
+          .then(function(file){
+            return fetch(GH_API_URL, {
+              method: 'PUT',
+              headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: 'Update wishlist from site', content: ghBase64Utf8(text), sha: file.sha, branch: GH_BRANCH })
+            });
+          })
+          .then(function(res){
+            if (res.status === 401) throw new Error('token');
+            if (res.status === 404) throw new Error('notfound');
+            if (res.status === 409) throw new Error('conflict');
+            if (!res.ok) throw new Error('putfailed');
+            return res.json();
+          })
+          .then(function(){
+            ghAutoSaveLastSaved = text;
+          });
+      }
+      function ghSaveErrorStatus(err){
+        var msg = err && err.message;
+        if (msg === 'token') ghSetStatus('That token did not work. Check it is still valid and try again.');
+        else if (msg === 'notfound') ghSetStatus('The repo or file was not found. Check the repo is called wishlist and data.json is in it.');
+        else if (msg === 'conflict') ghSetStatus('The file changed somewhere else just now. Try saving again.');
+        else ghSetStatus('Could not reach GitHub. Check your connection and try again.');
+      }
       var ghSaveBtn = document.getElementById('ghSaveBtn');
       if (ghSaveBtn) ghSaveBtn.addEventListener('click', function(){
         var token = ghGetToken();
@@ -1320,39 +1363,45 @@ var currentView = 'wishlist';
           return;
         }
         ghSetStatus('Saving...');
-        fetch(GH_API_URL, { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' } })
-          .then(function(res){
-            if (res.status === 401) throw new Error('token');
-            if (res.status === 404) throw new Error('notfound');
-            if (!res.ok) throw new Error('getfailed');
-            return res.json();
-          })
-          .then(function(file){
-            return fetch(GH_API_URL, {
-              method: 'PUT',
-              headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
-              body: JSON.stringify({ message: 'Update wishlist from site', content: ghBase64Utf8(ghDataText()), sha: file.sha, branch: GH_BRANCH })
-            });
-          })
-          .then(function(res){
-            if (res.status === 401) throw new Error('token');
-            if (res.status === 404) throw new Error('notfound');
-            if (res.status === 409) throw new Error('conflict');
-            if (!res.ok) throw new Error('putfailed');
-            return res.json();
-          })
+        ghSaveToGitHub()
           .then(function(){
             ghSetStatus('Saved. The public page updates in about a minute.');
             persist();
           })
-          .catch(function(err){
-            var msg = err && err.message;
-            if (msg === 'token') ghSetStatus('That token did not work. Check it is still valid and try again.');
-            else if (msg === 'notfound') ghSetStatus('The repo or file was not found. Check the repo is called wishlist and data.json is in it.');
-            else if (msg === 'conflict') ghSetStatus('The file changed somewhere else just now. Try saving again.');
-            else ghSetStatus('Could not reach GitHub. Check your connection and try again.');
-          });
+          .catch(ghSaveErrorStatus);
       });
+      /* ---------- auto-save: every edit publishes itself ----------
+         persist() calls scheduleGhAutoSave after writing to localStorage, so
+         every kind of edit is covered. It waits about 2.5 seconds after the
+         last change, so typing and bursts of edits become one save. If a
+         save is already running, one more is queued after it instead of
+         starting a second one. With no token saved, nothing is attempted
+         and nothing is shown. A failed save never clears her edits. */
+      var ghAutoSaveTimer = null;
+      var ghAutoSaveInFlight = false;
+      var ghAutoSaveQueued = false;
+      var ghAutoSaveLastSaved = null;
+      function scheduleGhAutoSave(){
+        if (!ghGetToken()) return;
+        try { if (ghDataText() === ghAutoSaveLastSaved) return; } catch (err) { return; }
+        if (ghAutoSaveTimer) clearTimeout(ghAutoSaveTimer);
+        ghAutoSaveTimer = setTimeout(runGhAutoSave, 2500);
+      }
+      function runGhAutoSave(){
+        ghAutoSaveTimer = null;
+        if (!ghGetToken()) return;
+        try { if (ghDataText() === ghAutoSaveLastSaved) return; } catch (err) { return; }
+        if (ghAutoSaveInFlight){ ghAutoSaveQueued = true; return; }
+        ghAutoSaveInFlight = true;
+        ghSetStatus('Saving...');
+        ghSaveToGitHub()
+          .then(function(){ ghSetStatus('Saved. The public page updates in about a minute.'); })
+          .catch(ghSaveErrorStatus)
+          .then(function(){
+            ghAutoSaveInFlight = false;
+            if (ghAutoSaveQueued){ ghAutoSaveQueued = false; runGhAutoSave(); }
+          });
+      }
       ghTokenState();
 
       /* ---------- manage mode, view size, specs toggle ---------- */

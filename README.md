@@ -10,7 +10,7 @@ A static copy of my birthday wishlist, ready to host on GitHub Pages.
 - `data.json` - all wishlist content (items, gift cards, sizes, little foods, vibe board)
 - `assets/` - all item and vibe board photos (87 images, saved locally so the page works on its own)
 
-Edits made on the page (Shahd view, card panel, Manage mode) save in that browser only, using localStorage. Nothing is sent to a server. The storage key is separate from the hosted version, so edits here do not carry over to the other copy and the other way round. To publish edits so everyone sees them, use Publish to GitHub in Shahd view (see below).
+Edits made on the page (Shahd view, card panel, Manage mode) save in that browser, using localStorage. With a token saved, they also publish to GitHub on their own a few seconds after each edit (see Publish below). The storage key is separate from the hosted version, so edits here do not carry over to the other copy and the other way round.
 
 ## Put it on GitHub
 
@@ -58,7 +58,7 @@ Only save the token on your own devices. Anyone with the token can change the wi
 
 ### Publish
 
-Click **Save changes to GitHub** in the same card. The site sends the wishlist as it is now, with every edit, to `data.json` in the repo. The public page updates about a minute after a save. That includes item edits and heading, description, footer, and brand edits made in Shahd view, which live under `pageText` in `data.json`.
+With a token saved, every edit publishes itself: a few seconds after you change something, the site sends the wishlist as it is now, with every edit, to `data.json` in the repo. The public page updates about a minute after a save. That includes item edits and heading, description, footer, and brand edits made in Shahd view, which live under `pageText` in `data.json`. The **Save changes to GitHub** button in the same card still works as a manual save if you ever want to save right away instead of waiting a few seconds. If a save fails, the card says so in plain words and your edits stay put, so you can try again.
 
 If you would rather not use a token, click **Download data.json** instead. It downloads the wishlist as it is now. Upload that file to the repo (it replaces the old `data.json`) and the public page updates too.
 
