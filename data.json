@@ -307,13 +307,14 @@
       "name": "Sunrise on the Reaping (A Hunger Games Novel)",
       "store": "Indigo",
       "price": 24.99,
-      "want": 0,
-      "variant": "Movie Tie-In Edition · Paperback",
+      "want": 4,
+      "variant": "no movie sticker!! make it look like the set",
       "img": "assets/hunger-games-sunrise-reaping.jpg",
       "url": "https://www.indigo.ca/products/sunrise-on-the-reaping-a-hunger-games-novel-edition",
-      "gtk": "Movie Tie-In Edition paperback.",
+      "gtk": "",
       "note": "",
-      "addedSeq": 23
+      "addedSeq": 23,
+      "imgNote": ""
     },
     {
       "id": "sixth-faction-book",
@@ -665,13 +666,14 @@
       "name": "GAQQI Lash Cluster Glue 2 IN 1 Bond and Seal, Waterproof",
       "store": "CanadaElle",
       "price": 39.28,
-      "want": 0,
+      "want": 4,
       "variant": "10 mL",
       "img": "assets/gaqqi-lash-bond-seal.jpg",
       "url": "https://canadaelle.ca/products/gaqqi-lash-cluster-glue-2-in-1-waterproof-10ml",
       "gtk": "Dual-ended bond and seal, waterproof, up to 72-hour hold.",
       "note": "",
-      "addedSeq": 49
+      "addedSeq": 49,
+      "imgNote": ""
     },
     {
       "id": "gaqqi-lash-clusters",
