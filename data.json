@@ -921,13 +921,14 @@
       "name": "Just Dance 2025 Limited Edition (Switch)",
       "store": "Best Buy Canada",
       "price": 38.97,
-      "want": 0,
-      "variant": "Limited Edition · Nintendo Switch",
+      "want": 4,
+      "variant": "any edition/year · Nintendo Switch",
       "img": "assets/just-dance-2025-switch.jpg",
       "url": "https://www.bestbuy.ca/en-ca/product/just-dance-2025-limited-edition-switch/17981727",
       "gtk": "The latest Just Dance for the original Switch. This Limited Edition is a digital code in a box, no cartridge. Sale ends Dec 3.",
       "note": "",
-      "addedSeq": 67
+      "addedSeq": 67,
+      "imgNote": ""
     },
     {
       "id": "domatcha-ceremonial",
