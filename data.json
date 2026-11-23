@@ -321,13 +321,14 @@
       "name": "The Sixth Faction by Veronica Roth",
       "store": "Indigo",
       "price": 28.99,
-      "want": 0,
+      "want": 4,
       "variant": "Hardcover · In stock online",
       "img": "assets/sixth-faction-book.jpg",
       "url": "https://www.indigo.ca/products/the-sixth-faction-4?variant=46695523942610",
       "gtk": "Hardcover, 528 pages. Published Oct 6, 2026.",
       "note": "",
-      "addedSeq": 24
+      "addedSeq": 24,
+      "imgNote": ""
     },
     {
       "id": "nail-kit-cuccio",
