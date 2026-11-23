@@ -996,12 +996,13 @@
       "store": "Aritzia Canada",
       "price": 78,
       "want": 0,
-      "variant": "Black",
+      "variant": "gray",
       "img": "assets/aritzia-cozy-sweatpant-black.jpg",
       "url": "https://www.aritzia.com/en/product/cozy-sweatfleece-perfect-banded-sweatpant/123913036.html",
       "gtk": "Mid-rise wide-leg in the signature Cozy Sweatfleece. Black is neutral and goes with everything.",
       "note": "",
-      "addedSeq": 75
+      "addedSeq": 75,
+      "imgNote": ""
     },
     {
       "id": "aritzia-bloor-sweater-burgundy",
