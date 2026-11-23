@@ -252,13 +252,14 @@
       "store": "Javvy",
       "price": 39.95,
       "currency": "USD",
-      "want": 0,
+      "want": 4,
       "variant": "20 servings · Ships to Canada · Price in USD",
       "img": "",
       "url": "https://javvycoffee.com/products/banana-bread-protein-coffee",
       "gtk": "20 servings per bag. Ships to Canada.",
       "note": "",
-      "addedSeq": 16
+      "addedSeq": 16,
+      "imgNote": "coffee protein powder"
     },
     {
       "id": "hunger-games-catching-fire",
