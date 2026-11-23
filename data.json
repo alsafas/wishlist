@@ -220,13 +220,14 @@
       "name": "Daft Punk - Random Access Memories - 10th Anniversary Edition [CD]",
       "store": "Best Buy Canada",
       "price": 27.38,
-      "want": 0,
+      "want": 3,
       "variant": "10th Anniversary Edition · CD",
       "img": "assets/daft-punk-ram-cd.jpg",
       "url": "https://www.bestbuy.ca/en-ca/product/daft-punk-random-access-memories-10th-anniversary-edition-cd/17474510",
       "gtk": "Double-CD Digipak with 35 minutes of unreleased music.",
       "note": "",
-      "addedSeq": 19
+      "addedSeq": 19,
+      "imgNote": ""
     },
     {
       "id": "javvy-french-vanilla",
