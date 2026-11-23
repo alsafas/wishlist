@@ -64,12 +64,13 @@ If you would rather not use a token, click **Download data.json** instead. It do
 
 ## A note on privacy
 
-If the repository is public, anyone with the link can see the wishlist, including sizes and the little foods list. Keep the repository private if you would rather it stay just for people you share the link with. The repo can stay private and the Pages site still works: only you (and anyone you invite) can see the files, but the published site is public to anyone with its link, so share that link only with people you want to see the wishlist.
+The repository is public, because GitHub Pages on the free plan only publishes from a public repo. Anyone can see the wishlist files, including sizes and the little foods list, and the published site is public to anyone with its link, so share that link only with people you want to see the wishlist.
 
 ## Editing the content
 
 - To change an item, price, or note, edit `data.json` and re-upload it. Keep the same shape for each item: `id`, `category`, `name`, `store`, `price`, `want` (0 to 5), `variant`, `img`, `imgNote`, `url`, `gtk`, `note`, `addedSeq`.
 - An item does not need a photo. Leave `img` empty and set `imgNote` to the note shown in the photo area instead, for example "Any cute mug, pink if they have it". If both are empty, the card shows "No photo yet". A photo link that fails to load falls back to the same note area.
+- When you add or edit an item on the site, the Photo section gives three choices: upload a photo from your device (it is shrunk to at most 1200px wide before it is saved), use a photo link, or show a note instead of a photo. You can switch between the three while editing; what you typed or picked in each one stays put until you save.
 - To change a photo, add the new image file to `assets/` and point the item's `img` field at it, for example `assets/my-photo.jpg`.
 - Vibe board tiles live under `vibeImages` in `data.json`. Add tiles on the Vibe board tab or in Shahd view, with a photo link, a photo picked from your device, or just a caption with no photo. A picked photo is shrunk to at most 1200px wide before it is saved.
 - To change colours or fonts, edit `styles.css`.

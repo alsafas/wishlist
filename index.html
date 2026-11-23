@@ -312,8 +312,25 @@
                   </label>
                 </div>
                 <label class="f">Link to buy it<input name="url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
-                <label class="f">Image link (optional)<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://… paste a photo link" /></label>
-                <label class="f">Note to show instead of a photo (optional)<input name="imgNote" placeholder="e.g. Any cute mug, pink if they have it" /></label>
+                <div class="photo-choice" data-photo-choice>
+                  <div class="pc-label">Photo</div>
+                  <div class="pc-modes">
+                    <label class="pc-mode"><input type="radio" name="photoMode" value="upload" /> Upload a photo</label>
+                    <label class="pc-mode"><input type="radio" name="photoMode" value="link" checked /> Photo link</label>
+                    <label class="pc-mode"><input type="radio" name="photoMode" value="note" /> Note instead</label>
+                  </div>
+                  <div class="pc-panel" data-pc-panel="upload" hidden>
+                    <label class="f">Pick a photo<input name="imgFile" type="file" accept="image/*" /></label>
+                    <div class="pc-preview" hidden><img alt="Picked photo preview" /><span></span></div>
+                    <p class="fineprint" style="margin-top:4px;">The photo is shrunk to at most 1200px wide before it is saved.</p>
+                  </div>
+                  <div class="pc-panel" data-pc-panel="link">
+                    <label class="f">Image link (optional)<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://… paste a photo link" /></label>
+                  </div>
+                  <div class="pc-panel" data-pc-panel="note" hidden>
+                    <label class="f">Note to show instead of a photo (optional)<input name="imgNote" placeholder="e.g. Any cute mug, pink if they have it" /></label>
+                  </div>
+                </div>
                 <label class="f">How I feel about it / note (optional)<input name="note" placeholder="Why you want it, anything the buyer should know" /></label>
                 <button class="btn primary" type="submit">Add to wishlist</button>
                 <div class="toast" id="addToast">Added. It is in the list above and stays saved in this browser. Mention it in chat with Pip to put it on the shared link too.</div>
@@ -368,8 +385,25 @@
             <span class="wp-text" id="editWantText"></span>
           </div>
           <label class="f">Link to buy it<input name="url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
-          <label class="f">Image link<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
-          <label class="f">Note to show instead of a photo<input name="imgNote" placeholder="Shown when there is no photo" /></label>
+          <div class="photo-choice" data-photo-choice>
+            <div class="pc-label">Photo</div>
+            <div class="pc-modes">
+              <label class="pc-mode"><input type="radio" name="photoMode" value="upload" /> Upload a photo</label>
+              <label class="pc-mode"><input type="radio" name="photoMode" value="link" checked /> Photo link</label>
+              <label class="pc-mode"><input type="radio" name="photoMode" value="note" /> Note instead</label>
+            </div>
+            <div class="pc-panel" data-pc-panel="upload" hidden>
+              <label class="f">Pick a photo<input name="imgFile" type="file" accept="image/*" /></label>
+              <div class="pc-preview" hidden><img alt="Picked photo preview" /><span></span></div>
+              <p class="fineprint" style="margin-top:4px;">The photo is shrunk to at most 1200px wide before it is saved.</p>
+            </div>
+            <div class="pc-panel" data-pc-panel="link">
+              <label class="f">Image link<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>
+            </div>
+            <div class="pc-panel" data-pc-panel="note" hidden>
+              <label class="f">Note to show instead of a photo<input name="imgNote" placeholder="Shown when there is no photo" /></label>
+            </div>
+          </div>
           <label class="f">How I feel about it / note<input name="note" /></label>
           <div class="actions">
             <button class="btn primary" type="submit">Save changes</button>

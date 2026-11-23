@@ -217,6 +217,17 @@ button, [role="button"], select, summary, input:not([type="checkbox"], [type="ra
       @media (max-width:480px){ form .row{ grid-template-columns:1fr; } }
       label.f{ display:block; font-size:.85rem; font-weight:600; margin-bottom:12px; }
       label.f input, label.f select, label.f textarea{ width:100%; margin-top:5px; font:inherit; font-size:.95rem; padding:9px 11px; border:1px solid var(--line); border-radius:11px; background:#fff; color:var(--ink); }
+      /* Photo choice: upload a photo, use a photo link, or show a note instead.
+         Only the panel for the chosen option is shown. */
+      .photo-choice{ margin-bottom:12px; }
+      .pc-label{ font-size:.85rem; font-weight:600; margin-bottom:6px; }
+      .pc-modes{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+      .pc-mode{ display:inline-flex; align-items:center; gap:6px; font-size:.85rem; font-weight:600; padding:7px 12px; border:1px solid var(--line); border-radius:999px; cursor:pointer; background:var(--surface2); color:var(--ink); }
+      .pc-mode.on{ background:var(--rose-soft); border-color:var(--rose); }
+      .pc-mode input{ accent-color:var(--heart); margin:0; }
+      .pc-preview{ display:flex; align-items:center; gap:10px; margin-top:8px; }
+      .pc-preview img{ width:64px; height:64px; object-fit:cover; border-radius:12px; border:1px solid var(--line); }
+      .pc-preview span{ font-size:.85rem; color:var(--ink2); word-break:break-all; }
       @media (prefers-color-scheme: dark){ label.f input, label.f select, label.f textarea{ background:rgba(255,255,255,.08); } }
       .btn{ font:inherit; font-weight:700; border:0; border-radius:999px; padding:11px 18px; cursor:pointer; min-height:2.75rem; }
       .btn.primary{ background:#655a74; color:#fff; width:100%; }

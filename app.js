@@ -355,8 +355,7 @@ var currentView = 'wishlist';
         if (f.elements['category']) f.elements['category'].value = itemCat(it);
         f.elements['variant'].value = it.variant || '';
         f.elements['url'].value = it.url || '';
-        f.elements['img'].value = it.img || '';
-        f.elements['imgNote'].value = it.imgNote || '';
+        initPhotoChoice(document.querySelector('#editForm [data-photo-choice]'), it);
         f.elements['note'].value = it.note || '';
         renderEditHearts();
         document.getElementById('editOverlay').classList.add('open');
@@ -377,11 +376,14 @@ var currentView = 'wishlist';
         it.variant = (f.get('variant') || '').toString().trim();
         it.category = (f.get('category') || 'other').toString().trim() || 'other';
         it.url = (f.get('url') || '').toString().trim();
-        it.img = (f.get('img') || '').toString().trim();
-        it.imgNote = (f.get('imgNote') || '').toString().trim();
         it.note = (f.get('note') || '').toString().trim();
         it.want = editWant;
-        closeEdit(); render(); renderReceived(); persist();
+        var pc = e.target.querySelector('[data-photo-choice]');
+        readPhotoChoice(pc, e.target, function(photo){
+          it.img = photo.img;
+          it.imgNote = photo.imgNote;
+          closeEdit(); render(); renderReceived(); persist();
+        });
       });
 
       /* ---------- rendering ---------- */
@@ -441,13 +443,32 @@ var currentView = 'wishlist';
           '<div class="detail-section detail-feel"><h3>How I feel about it</h3><label class="f" style="margin:0;"><textarea name="note" rows="3" placeholder="The colour or style you want, if there is one">' + esc(it.note || '') + '</textarea></label></div>' +
           '<div class="detail-section"><h3>Good to know</h3><label class="f" style="margin:0;"><textarea name="gtk" rows="3" placeholder="The facts: edition, size, colour, store, availability">' + esc(it.gtk || '') + '</textarea></label>' +
             '<label class="f" style="margin-top:10px;">Link to buy it<input name="url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" value="' + esc(it.url || '') + '" /></label>' +
-            '<label class="f" style="margin-bottom:0;">Image link<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" value="' + esc(it.img || '') + '" /></label>' +
-            '<label class="f" style="margin-top:10px;">Note to show instead of a photo<input name="imgNote" type="text" placeholder="Shown when there is no photo" value="' + esc(it.imgNote || '') + '" /></label></div>' +
+            '<div class="photo-choice" data-photo-choice>' +
+              '<div class="pc-label">Photo</div>' +
+              '<div class="pc-modes">' +
+                '<label class="pc-mode"><input type="radio" name="photoMode" value="upload" /> Upload a photo</label>' +
+                '<label class="pc-mode"><input type="radio" name="photoMode" value="link" checked /> Photo link</label>' +
+                '<label class="pc-mode"><input type="radio" name="photoMode" value="note" /> Note instead</label>' +
+              '</div>' +
+              '<div class="pc-panel" data-pc-panel="upload" hidden>' +
+                '<label class="f">Pick a photo<input name="imgFile" type="file" accept="image/*" /></label>' +
+                '<div class="pc-preview" hidden><img alt="Picked photo preview" /><span></span></div>' +
+                '<p class="fineprint" style="margin-top:4px;">The photo is shrunk to at most 1200px wide before it is saved.</p>' +
+              '</div>' +
+              '<div class="pc-panel" data-pc-panel="link">' +
+                '<label class="f" style="margin-bottom:0;">Image link<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>' +
+              '</div>' +
+              '<div class="pc-panel" data-pc-panel="note" hidden>' +
+                '<label class="f" style="margin-bottom:0;">Note to show instead of a photo<input name="imgNote" type="text" placeholder="Shown when there is no photo" /></label>' +
+              '</div>' +
+            '</div></div>' +
           '<label class="received-check"><input type="checkbox" id="detailReceived"' + (it.received ? ' checked' : '') + ' /><span class="rc-text"><strong>Received</strong><span>Tick this once it has been given to me. It crosses off the wishlist and moves to the Received section, not deleted.</span></span></label>' +
           '<div class="detail-buy"><button type="submit" class="btn detail-save-btn">Save changes</button>' + (it.url ? '<a href="' + esc(it.url) + '" target="_blank" rel="noopener">Buy this at ' + esc(it.store || 'the store') + '</a>' : '') + '<button type="button" class="btn detail-delete-btn" id="detailDeleteBtn">Delete this item</button><button type="button" class="btn ghost" id="detailCloseBtn" style="width:auto;margin-top:0;">Close</button></div>' +
           '</form></div>';
         document.getElementById('detailContent').innerHTML = html;
         document.getElementById('detailOverlay').classList.add('open');
+        var dpc = document.querySelector('#detailContent [data-photo-choice]');
+        if (dpc) initPhotoChoice(dpc, it);
         var dimg = document.querySelector('#detailContent .detail-photo img');
         if (dimg) dimg.addEventListener('error', function(){
           var wrap = dimg.closest('.detail-photo'); if (!wrap) return;
@@ -485,12 +506,15 @@ var currentView = 'wishlist';
           it.variant = (f.get('variant') || '').toString().trim();
           it.category = (f.get('category') || 'other').toString().trim() || 'other';
           it.url = (f.get('url') || '').toString().trim();
-          it.img = (f.get('img') || '').toString().trim();
-          it.imgNote = (f.get('imgNote') || '').toString().trim();
           it.note = (f.get('note') || '').toString().trim();
           it.gtk = (f.get('gtk') || '').toString().trim();
           it.want = detailWant;
-          closeDetail(); render(); renderReceived(); persist();
+          var dpc2 = dform.querySelector('[data-photo-choice]');
+          readPhotoChoice(dpc2, dform, function(photo){
+            it.img = photo.img;
+            it.imgNote = photo.imgNote;
+            closeDetail(); render(); renderReceived(); persist();
+          });
         });
         var rcCheck = document.getElementById('detailReceived');
         if (rcCheck) rcCheck.addEventListener('change', function(){
@@ -872,27 +896,32 @@ var currentView = 'wishlist';
 
       document.getElementById('addForm').addEventListener('submit', function(e){
         e.preventDefault();
-        var f = new FormData(e.target);
+        var form = e.target;
+        var f = new FormData(form);
         var url = (f.get('url') || '').toString().trim();
-        var img = (f.get('img') || '').toString().trim();
-        items.push({
-          id: 'custom-' + Date.now(),
-          name: (f.get('name') || 'Untitled item').toString().trim(),
-          store: (f.get('store') || '').toString().trim(),
-          price: parseFloat(f.get('price')) || 0,
-          want: parseInt(f.get('want'), 10) || 3,
-          variant: (f.get('variant') || '').toString().trim(),
-          category: (f.get('category') || 'other').toString().trim() || 'other',
-          note: (f.get('note') || '').toString().trim(),
-          imgNote: (f.get('imgNote') || '').toString().trim(),
-          url: url, img: img, added: true, addedSeq: nextAddedSeq()
+        var pc = form.querySelector('[data-photo-choice]');
+        readPhotoChoice(pc, form, function(photo){
+          items.push({
+            id: 'custom-' + Date.now(),
+            name: (f.get('name') || 'Untitled item').toString().trim(),
+            store: (f.get('store') || '').toString().trim(),
+            price: parseFloat(f.get('price')) || 0,
+            want: parseInt(f.get('want'), 10) || 3,
+            variant: (f.get('variant') || '').toString().trim(),
+            category: (f.get('category') || 'other').toString().trim() || 'other',
+            note: (f.get('note') || '').toString().trim(),
+            imgNote: photo.imgNote,
+            url: url, img: photo.img, added: true, addedSeq: nextAddedSeq()
+          });
+          form.reset();
+          fillPhotoChoice(pc, null);
+          activeRange = 'all'; activeCategory = 'all';
+          render(); persist();
+          var t = document.getElementById('addToast'); t.style.display = 'block';
+          document.getElementById('grid').scrollIntoView({ behavior:'smooth', block:'start' });
         });
-        e.target.reset();
-        activeRange = 'all'; activeCategory = 'all';
-        render(); persist();
-        var t = document.getElementById('addToast'); t.style.display = 'block';
-        document.getElementById('grid').scrollIntoView({ behavior:'smooth', block:'start' });
       });
+      initPhotoChoice(document.querySelector('#addForm [data-photo-choice]'), null);
 
       /* ---------- views: Wishlist, Vibe board, Shahd view ---------- */
       function applyEditable(){
@@ -987,6 +1016,148 @@ var currentView = 'wishlist';
           img.onerror = function(){ try { URL.revokeObjectURL(url); } catch (e) {} fallback(); };
           img.src = url;
         } catch (err){ fallback(); }
+      }
+      /* ---------- photo choice: upload a photo, use a photo link, or show a note ----------
+         One block per item form (add, edit, detail). Each block keeps its own
+         values while the form is open, so switching between the three keeps
+         what was typed or picked. On save, the chosen mode decides what is
+         written: upload writes the picked photo as a data URL, link writes
+         the URL, note clears the image and writes the note. The note is
+         always kept on the item too, so it still shows if a photo link ever
+         fails to load. */
+      function photoModeOf(it){
+        if (!it || !it.img) return 'note';
+        if (String(it.img).indexOf('data:image/') === 0) return 'upload';
+        return 'link';
+      }
+      function photoChoiceState(container){
+        if (!container._photo) container._photo = { mode:'link', uploadDataUrl:'', uploadName:'', lastFile:null, shrinking:false, shrinkWaiters:[] };
+        return container._photo;
+      }
+      function showPhotoPanel(container, mode){
+        var st = photoChoiceState(container);
+        st.mode = mode;
+        container.querySelectorAll('[data-pc-panel]').forEach(function(p){
+          p.hidden = p.getAttribute('data-pc-panel') !== mode;
+        });
+        container.querySelectorAll('input[name="photoMode"]').forEach(function(r){
+          r.checked = r.value === mode;
+          var lab = r.closest ? r.closest('.pc-mode') : null;
+          if (lab) lab.classList.toggle('on', r.checked);
+        });
+      }
+      function updatePhotoPreview(container){
+        var st = photoChoiceState(container);
+        var prev = container.querySelector('.pc-preview');
+        if (!prev) return;
+        var img = prev.querySelector('img');
+        var label = prev.querySelector('span');
+        if (st.uploadDataUrl){
+          prev.hidden = false;
+          if (img) img.src = st.uploadDataUrl;
+          if (label) label.textContent = st.uploadName || 'Picked photo';
+        } else {
+          prev.hidden = true;
+          if (img) img.removeAttribute('src');
+          if (label) label.textContent = '';
+        }
+      }
+      function onPhotoFilePicked(container){
+        var st = photoChoiceState(container);
+        var fileInput = container.querySelector('input[name="imgFile"]');
+        var file = fileInput && fileInput.files && fileInput.files[0];
+        if (!file){ st.lastFile = null; return; }
+        st.lastFile = file;
+        st.uploadName = file.name || 'Picked photo';
+        st.shrinking = true;
+        downscaleImageFile(file, function(dataUrl){
+          st.uploadDataUrl = dataUrl || '';
+          st.shrinking = false;
+          updatePhotoPreview(container);
+          var cbs = st.shrinkWaiters || []; st.shrinkWaiters = [];
+          cbs.forEach(function(cb){ cb(); });
+        });
+      }
+      function fillPhotoChoice(container, item){
+        var st = photoChoiceState(container);
+        var linkInput = container.querySelector('input[name="img"]');
+        var noteInput = container.querySelector('input[name="imgNote"]');
+        var fileInput = container.querySelector('input[name="imgFile"]');
+        st.uploadDataUrl = ''; st.uploadName = ''; st.lastFile = null; st.shrinking = false; st.shrinkWaiters = [];
+        if (fileInput) fileInput.value = '';
+        if (item){
+          if (photoModeOf(item) === 'upload'){
+            st.uploadDataUrl = item.img; st.uploadName = 'Photo you uploaded';
+          }
+          if (linkInput) linkInput.value = photoModeOf(item) === 'link' ? item.img : '';
+          if (noteInput) noteInput.value = item.imgNote || '';
+        } else {
+          if (linkInput) linkInput.value = '';
+          if (noteInput) noteInput.value = '';
+        }
+        showPhotoPanel(container, item ? photoModeOf(item) : 'link');
+        updatePhotoPreview(container);
+      }
+      function initPhotoChoice(container, item){
+        if (!container) return;
+        if (!container._photoWired){
+          container._photoWired = true;
+          container.querySelectorAll('input[name="photoMode"]').forEach(function(r){
+            r.addEventListener('change', function(){ if (r.checked) showPhotoPanel(container, r.value); });
+          });
+          var fileInput = container.querySelector('input[name="imgFile"]');
+          if (fileInput) fileInput.addEventListener('change', function(){ onPhotoFilePicked(container); });
+        }
+        fillPhotoChoice(container, item);
+      }
+      /* Reads the chosen photo into {img, imgNote}. Calls done() when ready.
+         The upload path is async because a picked photo is shrunk first. */
+      function readPhotoChoice(container, form, done){
+        var st = photoChoiceState(container);
+        var checked = container.querySelector('input[name="photoMode"]:checked');
+        var mode = checked ? checked.value : st.mode;
+        var noteInput = container.querySelector('input[name="imgNote"]');
+        var note = noteInput ? noteInput.value.trim() : '';
+        if (mode === 'note'){
+          done({ img:'', imgNote:note });
+          return;
+        }
+        if (mode === 'link'){
+          var linkInput = container.querySelector('input[name="img"]');
+          done({ img: linkInput ? linkInput.value.trim() : '', imgNote:note });
+          return;
+        }
+        /* upload mode */
+        var file = null;
+        try {
+          var fd = new FormData(form);
+          var picked = fd.get('imgFile');
+          if (picked && picked.size) file = picked;
+        } catch (err) {}
+        if (!file){
+          var fi = container.querySelector('input[name="imgFile"]');
+          if (fi && fi.files && fi.files[0]) file = fi.files[0];
+        }
+        if (file){
+          if (st.shrinking){
+            (st.shrinkWaiters = st.shrinkWaiters || []).push(function(){
+              done({ img: st.uploadDataUrl || '', imgNote:note });
+            });
+            return;
+          }
+          if (st.lastFile === file && st.uploadDataUrl){
+            done({ img: st.uploadDataUrl, imgNote:note });
+            return;
+          }
+          downscaleImageFile(file, function(dataUrl){
+            st.uploadDataUrl = dataUrl || '';
+            st.lastFile = file;
+            updatePhotoPreview(container);
+            done({ img: st.uploadDataUrl, imgNote:note });
+          });
+          return;
+        }
+        done({ img: st.uploadDataUrl || '', imgNote:note });
       }
       function addVibeTile(src, caption, note, formEl, toastEl){
         caption = (caption || '').toString().trim() || 'Untitled vibe photo';
