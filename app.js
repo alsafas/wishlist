@@ -467,7 +467,10 @@ var currentView = 'wishlist';
                 '<p class="fineprint" style="margin-top:4px;">The photo is shrunk to at most 1200px wide before it is saved.</p>' +
               '</div>' +
               '<div class="pc-panel" data-pc-panel="link">' +
-                '<label class="f" style="margin-bottom:0;">Image link<input name="img" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://" /></label>' +
+                '<label class="f" style="margin-bottom:0;">Page link<input name="imgPage" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https:// paste any page link" /></label>' +
+                '<button type="button" class="btn ghost pc-fetch-btn">Use photo from this link</button>' +
+                '<div class="pc-linkstatus" hidden><img alt="Photo from that page" /><span></span></div>' +
+                '<p class="fineprint" style="margin-top:4px;">Paste any page link, the buy link or another one. The photo from that page is used as the item photo.</p>' +
               '</div>' +
               '<div class="pc-panel" data-pc-panel="note" hidden>' +
                 '<label class="f" style="margin-bottom:0;">Note to show instead of a photo<input name="imgNote" type="text" placeholder="Shown when there is no photo" /></label>' +
@@ -1043,7 +1046,7 @@ var currentView = 'wishlist';
         return 'link';
       }
       function photoChoiceState(container){
-        if (!container._photo) container._photo = { mode:'link', uploadDataUrl:'', uploadName:'', lastFile:null, shrinking:false, shrinkWaiters:[] };
+        if (!container._photo) container._photo = { mode:'link', uploadDataUrl:'', uploadName:'', lastFile:null, shrinking:false, shrinkWaiters:[], linkImg:'', linkFetchedFor:'', filledPage:'', keepImg:'', syncedBuyLink:'', linkFetching:false, linkWaiters:[] };
         return container._photo;
       }
       function showPhotoPanel(container, mode){
@@ -1074,6 +1077,85 @@ var currentView = 'wishlist';
           if (label) label.textContent = '';
         }
       }
+      /* ---------- photo from a page link ----------
+         "Photo link" no longer means a direct image URL. She pastes any
+         page link (the buy link or a different one) and the site pulls the
+         photo that page uses, through the Microlink preview service, which
+         needs no key. The fetched image URL is what gets saved as the item
+         photo. If the page has no photo, or the preview fails, the item
+         still saves: an existing item keeps its old photo, and a new item
+         just gets no photo. A pasted link that is itself a direct image
+         file is used as-is. */
+      function isImageUrl(u){ return /\.(jpe?g|png|gif|webp|avif)(\?|#|$)/i.test(u || ''); }
+      function showLinkStatus(container, msg, imgUrl){
+        var status = container.querySelector('.pc-linkstatus');
+        if (!status) return;
+        var im = status.querySelector('img');
+        var tx = status.querySelector('span');
+        if (im){
+          if (imgUrl){ im.src = imgUrl; im.style.display = ''; }
+          else { im.removeAttribute('src'); im.style.display = 'none'; }
+        }
+        if (tx) tx.textContent = msg || '';
+        status.hidden = !msg && !imgUrl;
+      }
+      function fetchLinkPhoto(container, done){
+        var st = photoChoiceState(container);
+        if (st.linkFetching){
+          if (done) (st.linkWaiters = st.linkWaiters || []).push(done);
+          return;
+        }
+        var pageInput = container.querySelector('input[name="imgPage"]');
+        var page = pageInput ? pageInput.value.trim() : '';
+        function finish(){
+          st.linkFetching = false;
+          var w = st.linkWaiters || []; st.linkWaiters = [];
+          w.forEach(function(cb){ cb(); });
+          if (done) done();
+        }
+        if (!page){
+          st.linkImg = ''; st.linkFetchedFor = '';
+          showLinkStatus(container, 'Add a link first, then the photo from that page will show here.');
+          if (done) done();
+          return;
+        }
+        st.linkFetching = true;
+        showLinkStatus(container, 'Looking for the photo on that page...');
+        fetch('https://api.microlink.io/?url=' + encodeURIComponent(page))
+          .then(function(r){ return r.json(); })
+          .then(function(j){
+            var imgUrl = (j && j.data && j.data.image && j.data.image.url) ? j.data.image.url : '';
+            if (!imgUrl && isImageUrl(page)) imgUrl = page;
+            if (imgUrl){
+              st.linkImg = imgUrl; st.linkFetchedFor = page;
+              showLinkStatus(container, 'Found it. This photo will be used.', imgUrl);
+            } else {
+              st.linkImg = ''; st.linkFetchedFor = page;
+              showLinkStatus(container, 'No photo found on that page. Try a different link, or upload a photo instead.');
+            }
+            finish();
+          })
+          .catch(function(){
+            st.linkImg = '';
+            showLinkStatus(container, 'Could not get a photo from that link. Try again, or upload a photo instead.');
+            finish();
+          });
+      }
+      function maybeFetchLinkPhoto(container){
+        var st = photoChoiceState(container);
+        var pageInput = container.querySelector('input[name="imgPage"]');
+        var page = pageInput ? pageInput.value.trim() : '';
+        if (!page){
+          showLinkStatus(container, 'Add a link first, then the photo from that page will show here.');
+          return;
+        }
+        if (page === st.linkFetchedFor){
+          if (st.linkImg) showLinkStatus(container, 'Found it. This photo will be used.', st.linkImg);
+          else showLinkStatus(container, 'No photo found on that page. Try a different link, or upload a photo instead.');
+          return;
+        }
+        fetchLinkPhoto(container);
+      }
       function onPhotoFilePicked(container){
         var st = photoChoiceState(container);
         var fileInput = container.querySelector('input[name="imgFile"]');
@@ -1092,20 +1174,37 @@ var currentView = 'wishlist';
       }
       function fillPhotoChoice(container, item){
         var st = photoChoiceState(container);
-        var linkInput = container.querySelector('input[name="img"]');
+        var pageInput = container.querySelector('input[name="imgPage"]');
         var noteInput = container.querySelector('input[name="imgNote"]');
         var fileInput = container.querySelector('input[name="imgFile"]');
         st.uploadDataUrl = ''; st.uploadName = ''; st.lastFile = null; st.shrinking = false; st.shrinkWaiters = [];
+        st.linkImg = ''; st.linkFetchedFor = ''; st.filledPage = ''; st.keepImg = ''; st.syncedBuyLink = ''; st.linkFetching = false; st.linkWaiters = [];
         if (fileInput) fileInput.value = '';
+        var formEl = container.closest ? container.closest('form') : null;
+        var urlInput = formEl ? formEl.querySelector('input[name="url"]') : null;
+        var buyLink = urlInput ? urlInput.value.trim() : (item && item.url ? String(item.url).trim() : '');
         if (item){
           if (photoModeOf(item) === 'upload'){
             st.uploadDataUrl = item.img; st.uploadName = 'Photo you uploaded';
           }
-          if (linkInput) linkInput.value = photoModeOf(item) === 'link' ? item.img : '';
+          if (photoModeOf(item) === 'link'){
+            st.keepImg = item.img; st.linkImg = item.img;
+          }
           if (noteInput) noteInput.value = item.imgNote || '';
         } else {
-          if (linkInput) linkInput.value = '';
           if (noteInput) noteInput.value = '';
+        }
+        if (pageInput){
+          var prefill = buyLink || (item && item.img && /^https?:\/\//i.test(item.img) ? item.img : '');
+          pageInput.value = prefill;
+          st.filledPage = prefill;
+          st.syncedBuyLink = buyLink;
+          if (item && photoModeOf(item) === 'link' && item.img){
+            showLinkStatus(container, 'This is the photo now.', item.img);
+          } else {
+            var ls = container.querySelector('.pc-linkstatus');
+            if (ls) ls.hidden = true;
+          }
         }
         showPhotoPanel(container, item ? photoModeOf(item) : 'link');
         updatePhotoPreview(container);
@@ -1115,10 +1214,35 @@ var currentView = 'wishlist';
         if (!container._photoWired){
           container._photoWired = true;
           container.querySelectorAll('input[name="photoMode"]').forEach(function(r){
-            r.addEventListener('change', function(){ if (r.checked) showPhotoPanel(container, r.value); });
+            r.addEventListener('change', function(){
+              if (r.checked){ showPhotoPanel(container, r.value); if (r.value === 'link') maybeFetchLinkPhoto(container); }
+            });
           });
           var fileInput = container.querySelector('input[name="imgFile"]');
           if (fileInput) fileInput.addEventListener('change', function(){ onPhotoFilePicked(container); });
+          var fetchBtn = container.querySelector('.pc-fetch-btn');
+          if (fetchBtn) fetchBtn.addEventListener('click', function(){ fetchLinkPhoto(container); });
+          var pageInput = container.querySelector('input[name="imgPage"]');
+          if (pageInput) pageInput.addEventListener('change', function(){
+            var st = photoChoiceState(container);
+            var v = pageInput.value.trim();
+            if (v && v !== st.linkFetchedFor) fetchLinkPhoto(container);
+          });
+          /* While she types the buy link, the page link follows it, as long
+             as she has not replaced it with a different link of her own. */
+          var formEl = container.closest ? container.closest('form') : null;
+          var urlInput = formEl ? formEl.querySelector('input[name="url"]') : null;
+          if (urlInput) urlInput.addEventListener('input', function(){
+            var st = photoChoiceState(container);
+            var pi = container.querySelector('input[name="imgPage"]');
+            if (!pi) return;
+            var cur = pi.value.trim();
+            var buy = urlInput.value.trim();
+            if (!cur || cur === st.syncedBuyLink){
+              pi.value = buy;
+              st.syncedBuyLink = buy;
+            }
+          });
         }
         fillPhotoChoice(container, item);
       }
@@ -1135,8 +1259,18 @@ var currentView = 'wishlist';
           return;
         }
         if (mode === 'link'){
-          var linkInput = container.querySelector('input[name="img"]');
-          done({ img: linkInput ? linkInput.value.trim() : '', imgNote:note });
+          var pageInput = container.querySelector('input[name="imgPage"]');
+          var page = pageInput ? pageInput.value.trim() : '';
+          /* A link she typed but never fetched yet is fetched now, so the
+             photo still lands on the item. An untouched link keeps the
+             photo the item already had. */
+          if (page && page !== st.linkFetchedFor && page !== st.filledPage){
+            fetchLinkPhoto(container, function(){
+              done({ img: st.linkImg || st.keepImg || '', imgNote:note });
+            });
+            return;
+          }
+          done({ img: st.linkImg || st.keepImg || '', imgNote:note });
           return;
         }
         /* upload mode */

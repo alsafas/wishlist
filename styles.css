@@ -195,6 +195,10 @@ button, [role="button"], select, summary, input:not([type="checkbox"], [type="ra
       .pc-preview{ display:flex; align-items:center; gap:10px; margin-top:8px; }
       .pc-preview img{ width:64px; height:64px; object-fit:cover; border-radius:12px; border:1px solid var(--line); }
       .pc-preview span{ font-size:.85rem; color:var(--ink2); word-break:break-all; }
+      .pc-fetch-btn{ margin-top:8px; }
+      .pc-linkstatus{ display:flex; align-items:center; gap:10px; margin-top:8px; }
+      .pc-linkstatus img{ width:64px; height:64px; object-fit:cover; border-radius:12px; border:1px solid var(--line); }
+      .pc-linkstatus span{ font-size:.85rem; color:var(--ink2); word-break:break-all; }
             .btn{ font:inherit; font-weight:700; border:0; border-radius:999px; padding:11px 18px; cursor:pointer; min-height:2.75rem; }
       .btn.primary{ background:#655a74; color:#fff; width:100%; }
       .btn.primary:hover{ background:#574c66; }
