@@ -5,7 +5,7 @@ A static copy of my birthday wishlist, ready to host on GitHub Pages.
 ## What is in here
 
 - `index.html` - the page structure
-- `styles.css` - all styling (pastel whimsy: Fraunces headings, DM Sans body, soft pastel washes, dark mode on deep plum)
+- `styles.css` - all styling (pastel whimsy: Fraunces headings, DM Sans body, soft pastel washes, light mode only)
 - `app.js` - all behaviour (tabs, filters, sorting, card panel, Manage mode, Shahd view editing)
 - `data.json` - all wishlist content (items, gift cards, sizes, little foods, vibe board)
 - `assets/` - all item and vibe board photos (87 images, saved locally so the page works on its own)
