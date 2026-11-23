@@ -545,13 +545,14 @@
       "name": "Owala FreeSip Tritan Water Bottle, 25 oz",
       "store": "Shoppers Drug Mart",
       "price": 24,
-      "want": 0,
+      "want": 4,
       "variant": "Rose Quartz pink · 25 oz / 740 mL",
       "img": "assets/owala-freesip-25oz-pink.jpg",
       "url": "https://www.shoppersdrugmart.ca/freesip/p/BB_840467311369?variantCode=840467311369",
       "gtk": "Tritan 25 oz / 740 mL, FreeSip spout with straw, leak-proof, BPA-free. Pink (Rose Quartz colourway), pick the pink colour on the Shoppers page.",
       "note": "",
-      "addedSeq": 40
+      "addedSeq": 40,
+      "imgNote": ""
     },
     {
       "id": "tooth-gem-kit-butterfly",
