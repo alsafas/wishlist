@@ -155,20 +155,6 @@
       "addedSeq": 10
     },
     {
-      "id": "aftonsparv",
-      "category": "fun",
-      "name": "AFTONSPARV Soft Toy, Green Alien",
-      "store": "IKEA · resale on Poshmark",
-      "price": 30,
-      "want": 4,
-      "variant": "The green alien · 34 cm",
-      "img": "assets/aftonsparv.webp",
-      "url": "https://poshmark.ca/listing/IKEA-AFTONSPARV-Alien-Plush-Toy-Green-Stuffed-Doll-Discontinued-No-Tag-6ae2bd8256502bb6175e2c8b",
-      "gtk": "Discontinued April 2026, secondhand only. Resale about $14 to $30 CAD.",
-      "note": "Green.",
-      "addedSeq": 11
-    },
-    {
       "id": "skullpanda-mlp",
       "category": "fun",
       "name": "SKULLPANDA × My Little Pony Plush Pendant Blind Box",
@@ -582,13 +568,14 @@
       "name": "Bailey Nelson Patti Optical Glasses",
       "store": "Bailey Nelson",
       "price": 249,
-      "want": 0,
-      "variant": "Pink acetate",
+      "want": 4,
+      "variant": "",
       "img": "assets/bailey-nelson-patti.webp",
       "url": "https://baileynelson.com/products/patti",
       "gtk": "Oversized square frame with generous proportions and softened edges, thick acetate. $249 is the live price.",
       "note": "",
-      "addedSeq": 43
+      "addedSeq": 43,
+      "imgNote": ""
     },
     {
       "id": "valentino-green-stravaganza",
@@ -596,13 +583,14 @@
       "name": "Valentino Donna Born in Roma Green Stravaganza Eau de Parfum",
       "store": "Sephora Canada",
       "price": 125,
-      "want": 0,
+      "want": 3,
       "variant": "30 mL",
       "img": "assets/valentino-green-stravaganza.jpg",
       "url": "https://www.sephora.ca/product/valentino-donna-born-in-roma-green-stravaganza-eau-de-parfum-P510455?skuId=2736494",
       "gtk": "Vibrant green Rockstud bottle; tea accord, jasmine, vanilla; Donna (women’s) version.",
       "note": "",
-      "addedSeq": 44
+      "addedSeq": 44,
+      "imgNote": ""
     },
     {
       "id": "kayali-freedom-musk-latte",
@@ -624,13 +612,14 @@
       "name": "Billie Eilish Eilish Eau de Parfum",
       "store": "Sephora Canada",
       "price": 109,
-      "want": 0,
+      "want": 5,
       "variant": "100 mL",
       "img": "assets/billie-eilish-perfume.jpg",
       "url": "https://www.sephora.ca/product/eilish-1-eau-de-parfum-P520204?skuId=2948495",
       "gtk": "Original Eilish in the gold bust bottle; sugared petals, vanilla, warm musks.",
       "note": "",
-      "addedSeq": 46
+      "addedSeq": 46,
+      "imgNote": ""
     },
     {
       "id": "lattafa-yara-perfume",
@@ -638,13 +627,14 @@
       "name": "Lattafa Yara Eau de Parfum",
       "store": "Kings Perfumes",
       "price": 51,
-      "want": 0,
+      "want": 4,
       "variant": "100 mL",
       "img": "assets/lattafa-yara-perfume.jpg",
       "url": "https://kingsperfumes.ca/products/yara?variant=51749188731201",
       "gtk": "Pink bottle; pink florals, vanilla.",
       "note": "",
-      "addedSeq": 47
+      "addedSeq": 47,
+      "imgNote": ""
     },
     {
       "id": "lattafa-yara-hair-mist",
@@ -652,13 +642,14 @@
       "name": "Lattafa Yara Hair Mist",
       "store": "La Casa De Parfum",
       "price": 35,
-      "want": 0,
+      "want": 4,
       "variant": "50 mL",
       "img": "assets/lattafa-yara-hair-mist.jpg",
       "url": "https://lacasadeparfum.ca/products/lattafa-yara-hair-mist-50ml-women?variant=52661301018916",
       "gtk": "Matching Yara scent for hair.",
       "note": "",
-      "addedSeq": 48
+      "addedSeq": 48,
+      "imgNote": ""
     },
     {
       "id": "gaqqi-lash-bond-seal",
@@ -862,13 +853,14 @@
       "name": "LEGO Botanicals Lucky Bamboo (10344)",
       "store": "Hobby Wholesale",
       "price": 39.99,
-      "want": 0,
+      "want": 4,
       "variant": "325 pieces",
       "img": "assets/lego-lucky-bamboo.jpg",
       "url": "https://hobbywholesale.com/toys-games-puzzles/toy-sets/lego/botanicals/lucky-bamboo-leg10344.html",
       "gtk": "LEGO Botanicals bamboo set, 325 pieces. Best Buy Canada has the same set at $34.99 on sale until Nov 19, but that price was not page-verified.",
       "note": "",
-      "addedSeq": 63
+      "addedSeq": 63,
+      "imgNote": ""
     },
     {
       "id": "elenco-solder-kit",
@@ -1002,13 +994,14 @@
       "name": "Blythe Custom Doll (OOAK)",
       "store": "Etsy Canada",
       "price": 685.16,
-      "want": 0,
+      "want": 3,
       "variant": "OOAK custom · Pre-order",
       "img": "assets/blythe-custom-doll.jpg",
       "url": "https://www.etsy.com/ca/listing/4297660224/dolls-on-order-blythe-custom-doll-oak",
       "gtk": "One-of-a-kind custom Blythe by seller HermosaPL, who takes likeness commissions: message the seller with photos and preferences and the doll is made to look like you. Made to order, turnaround time not listed. Pre-order, 15% off, sale ends Nov 30.",
       "note": "",
-      "addedSeq": 73
+      "addedSeq": 73,
+      "imgNote": ""
     },
     {
       "id": "leuchtturm-bullet-journal",
@@ -1058,13 +1051,14 @@
       "name": "SKULLPANDA Lazy Panda Plush Doll Pendant",
       "store": "A&C Games",
       "price": 99.99,
-      "want": 0,
+      "want": 4,
       "variant": "Plush pendant · 13.5 cm",
       "img": "assets/skullpanda-lazypanda-pendant.jpg",
       "url": "https://acgamesonline.com/products/pop-mart-skullpanda-lazy-panda-plush-doll-pendant",
       "gtk": "The Lazy Panda product is this plush pendant with bead chain and keyring, not a figure blind box. POP MART Canada lists the same item at C$54.99, so check there before buying.",
       "note": "",
-      "addedSeq": 77
+      "addedSeq": 77,
+      "imgNote": ""
     },
     {
       "id": "skullpanda-tell-me-what-you-want",
@@ -1081,32 +1075,19 @@
       "addedSeq": 78
     },
     {
-      "id": "aritzia-super-puff-white",
-      "category": "clothes",
-      "name": "The Super Puff Mid Jacket",
-      "store": "Aritzia Canada",
-      "price": 350,
-      "want": 0,
-      "variant": "White · Size M",
-      "img": "assets/aritzia-super-puff-white.jpg",
-      "url": "https://www.aritzia.com/en/product/the-super-puff%E2%84%A2-mid/117971132.html",
-      "gtk": "The iconic Super Puff in true white, mid-length. Price and colour confirmed via the store listing; page-level stock not re-verified.",
-      "note": "",
-      "addedSeq": 79
-    },
-    {
       "id": "lululemon-align-pants-black",
       "category": "clothes",
       "name": "Lululemon Align No Line High-Rise Pant with Pockets 28\"",
       "store": "lululemon Canada",
       "price": 158,
-      "want": 0,
-      "variant": "Black · Size 10",
+      "want": 5,
+      "variant": "Black · Size 10 + gift reciept pls",
       "img": "assets/lululemon-align-pants-black.jpg",
       "url": "https://shop.lululemon.com/en-ca/p/lululemon-align-no-line-high-rise-pant-pockets-28/hi5bda3kku?color=0001&sz=10",
       "gtk": "The exact model: No Line, with pockets, 28 inch length. Black is grayscale, and size 10 matches my known Align size.",
       "note": "",
-      "addedSeq": 80
+      "addedSeq": 80,
+      "imgNote": ""
     },
     {
       "id": "grey-oodie-original",
@@ -1137,32 +1118,19 @@
       "addedSeq": 82
     },
     {
-      "id": "canon-selphy-cp1500",
-      "category": "fun",
-      "name": "Canon SELPHY CP1500 Wireless Compact Photo Printer",
-      "store": "Best Buy Canada",
-      "price": 149.99,
-      "want": 0,
-      "variant": "Black",
-      "img": "assets/canon-selphy-cp1500.jpg",
-      "url": "https://www.bestbuy.ca/en-ca/product/canon-selphy-cp1500-wireless-compact-photo-printer-black/16680665",
-      "gtk": "Compact Wi-Fi and USB printer for phone photos: 4x6 inch and square prints, 3.5 inch display, instant-dry prints. On sale from $199.99, ends Dec 3. More versatile than an Instax-only printer.",
-      "note": "",
-      "addedSeq": 83
-    },
-    {
       "id": "apple-watch-series-12",
       "category": "fun",
       "name": "Apple Watch Series 12 GPS + Cellular",
       "store": "Apple Canada",
       "price": 679,
-      "want": 0,
-      "variant": "42 mm · GPS + Cellular · Black Aluminium, Black Sport Band M/L",
+      "want": 5,
+      "variant": "GPS + Cellular",
       "img": "assets/apple-watch-series-12.jpg",
       "url": "https://www.apple.com/ca/shop/go/product/MJG14CL/A",
       "gtk": "Current-generation Series 12 with GPS and Cellular (5G-capable), smaller 42 mm case. A cheaper current-gen alternative is the Apple Watch SE 3 GPS + Cellular 40 mm at $399.",
       "note": "",
-      "addedSeq": 84
+      "addedSeq": 84,
+      "imgNote": ""
     },
     {
       "id": "hexbug-nano-5-pack",
@@ -1212,13 +1180,14 @@
       "name": "Custom Heart Star 2-Tooth Grillz",
       "store": "Etsy",
       "price": 295.78,
-      "want": 0,
+      "want": 4,
       "variant": "2-tooth · Silver",
       "img": "assets/custom-heart-star-grillz.jpg",
       "url": "https://www.etsy.com/ca/listing/4551047917/custom-heart-star-2-tooth-grillz",
       "gtk": "Bold heart window design paired with an abstract open star, covering two adjacent teeth. Handcrafted and mirror-polished, by seller Melothejeweller. Silver and Dental Silver, plus gold options. Free at-home impression kit included, made to order from dental impressions. Price is from CA$295.78 depending on material.",
       "note": "",
-      "addedSeq": 88
+      "addedSeq": 88,
+      "imgNote": ""
     },
     {
       "id": "coming-age-star-open-face",
@@ -1226,13 +1195,14 @@
       "name": "Coming Age Classic Star + Open Face",
       "store": "Coming Age",
       "price": 540,
-      "want": 0,
+      "want": 4,
       "variant": "2-tooth set · Silver",
       "img": "assets/coming-age-star-open-face.jpg",
       "url": "https://coming-age.com/products/open-face-star-silver?variant=48505171181805",
       "gtk": "Set of 2 teeth: one open face and one star, and the star goes on the tooth of your choice. 925 sterling silver, gold options too. Molding kit mailed free with prepaid return label, handmade in Montreal, production 3 to 5 weeks after the mold arrives. Price is for the set.",
       "note": "",
-      "addedSeq": 89
+      "addedSeq": 89,
+      "imgNote": ""
     }
   ],
   "giftCards": [
