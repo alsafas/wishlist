@@ -825,12 +825,13 @@
       "store": "Sephora Canada",
       "price": 34,
       "want": 0,
-      "variant": "Rosy Mauve",
+      "variant": "mocha",
       "img": "assets/huda-lip-contour-stain-rosy-mauve.jpg",
       "url": "https://www.sephora.ca/product/huda-beauty-lip-contour-stain-P516661?skuId=2989218",
-      "gtk": "12-hour transfer-proof stain and liner hybrid; Rosy Mauve is the nude-mauve shade; Rosewood is the other brownish option at the same $34.",
+      "gtk": "",
       "note": "",
-      "addedSeq": 61
+      "addedSeq": 61,
+      "imgNote": ""
     },
     {
       "id": "huda-easy-bake-powder-kunafa",
