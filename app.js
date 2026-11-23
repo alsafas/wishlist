@@ -363,8 +363,9 @@ var currentView = 'wishlist';
         f.elements['note'].value = it.note || '';
         renderEditHearts();
         document.getElementById('editOverlay').classList.add('open');
+        lockBodyScroll();
       }
-      function closeEdit(){ document.getElementById('editOverlay').classList.remove('open'); editingId = null; }
+      function closeEdit(){ document.getElementById('editOverlay').classList.remove('open'); editingId = null; unlockBodyScroll(); }
       document.getElementById('editCancel').addEventListener('click', closeEdit);
       document.getElementById('editOverlay').addEventListener('click', function(e){ if (e.target === this) closeEdit(); });
       document.getElementById('detailClose').addEventListener('click', closeDetail);
@@ -419,6 +420,12 @@ var currentView = 'wishlist';
       }
       /* ---------- detail view: shows the extra info and edits in place ---------- */
       var detailWant = 3;
+      /* While a panel is open the page behind it stays still, so scrolling
+         inside the panel never drags the 85-card grid along with it. */
+      function lockBodyScroll(){ document.body.style.overflow = 'hidden'; }
+      function unlockBodyScroll(){
+        if (!document.querySelector('.overlay.open')) document.body.style.overflow = '';
+      }
       function openDetail(id){
         var it = byId(id); if (!it) return;
         detailWant = it.want;
@@ -471,6 +478,7 @@ var currentView = 'wishlist';
           '</form></div>';
         document.getElementById('detailContent').innerHTML = html;
         document.getElementById('detailOverlay').classList.add('open');
+        lockBodyScroll();
         var dpc = document.querySelector('#detailContent [data-photo-choice]');
         if (dpc) initPhotoChoice(dpc, it);
         var dimg = document.querySelector('#detailContent .detail-photo img');
@@ -531,7 +539,7 @@ var currentView = 'wishlist';
         var cb = document.getElementById('detailCloseBtn'); if (cb) cb.addEventListener('click', closeDetail);
         var c = document.getElementById('detailClose'); if (c) c.focus();
       }
-      function closeDetail(){ document.getElementById('detailOverlay').classList.remove('open'); }
+      function closeDetail(){ document.getElementById('detailOverlay').classList.remove('open'); unlockBodyScroll(); }
 
 
       function sorted(list){

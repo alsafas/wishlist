@@ -204,7 +204,7 @@ button, [role="button"], select, summary, input:not([type="checkbox"], [type="ra
       footer{ margin-top:56px; border-top:1px solid var(--line); padding-top:18px; color:var(--ink2); font-size:.85rem; display:flex; align-items:flex-start; gap:6px; flex-wrap:wrap; }
       footer .star-inline{ flex:none; margin-top:1px; }
 
-      .overlay{ display:none; position:fixed; inset:0; z-index:60; background:rgba(46,40,56,.42); backdrop-filter:blur(4px); padding:16px; overflow-y:auto; }
+      .overlay{ display:none; position:fixed; inset:0; z-index:60; background:rgba(46,40,56,.42); padding:16px; overflow-y:auto; overscroll-behavior:contain; }
       .overlay.open{ display:flex; align-items:flex-start; justify-content:center; }
       .dialog{ background:var(--surface-solid); color:var(--ink); border-radius:22px; box-shadow:var(--shadow); width:100%; max-width:520px; margin:auto 0; padding:22px; }
             .dialog h2{ font-size:1.6rem; margin-bottom:4px; }
