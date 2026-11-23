@@ -1068,13 +1068,14 @@
       "name": "Grey Oodie, The Oodie Original",
       "store": "The Oodie Canada",
       "price": 76.3,
-      "want": 0,
-      "variant": "Grey",
+      "want": 3,
+      "variant": "any colour",
       "img": "assets/grey-oodie-original.jpg",
       "url": "https://ca.theoodie.com/products/grey-oodie-original",
       "gtk": "Oversized wearable blanket: ToastyTek flannel outside, sherpa inside, hood, and a giant pocket. On sale from $109.00, and the price varies by size ($69.00 to $76.30).",
       "note": "",
-      "addedSeq": 81
+      "addedSeq": 81,
+      "imgNote": ""
     },
     {
       "id": "cartman-heated-weighted-blanket",
