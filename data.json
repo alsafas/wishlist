@@ -22,12 +22,13 @@
       "store": "Garage",
       "price": 79.95,
       "want": 4,
-      "variant": "Size M · Any colour",
+      "variant": "Size M · Any colour not teal",
       "img": "assets/hoodie.webp",
       "url": "https://www.garageclothing.com/ca/p/ultrafleece-hoodie/1000373.html",
       "gtk": "Any colour. Please include a gift receipt so I can check the size or exchange it.",
-      "note": "Teal Temptation is my favourite, but any colour is fine.",
-      "addedSeq": 2
+      "note": "",
+      "addedSeq": 2,
+      "imgNote": ""
     },
     {
       "id": "adidas-cny-jacket",
