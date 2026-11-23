@@ -50,13 +50,14 @@
       "name": "Alpiine Snow Boots",
       "store": "Call It Spring",
       "price": 109.99,
-      "want": 4,
+      "want": 3,
       "variant": "Size 9 · Colour: Ice",
       "img": "assets/alpiine.webp",
       "url": "https://www.callitspring.com/products/alpiine-ice",
       "gtk": "Ice colour, size 9. Size 9.5 is not offered in Ice.",
       "note": "Ice.",
-      "addedSeq": 3
+      "addedSeq": 3,
+      "imgNote": ""
     },
     {
       "id": "lowmel",
