@@ -747,12 +747,13 @@
       "store": "Mat and Max",
       "price": 15.99,
       "want": 0,
-      "variant": "Neutrals, 4-pack",
+      "variant": "i just want more regular sturdy claw clips (mine broke)",
       "img": "assets/framar-claw-clips.jpg",
       "url": "https://www.matandmax.com/ca-en/brands/framar/clips/framar-claw-clips-neutrals-4pack.html",
       "gtk": "Large plain neutral clips, powerful metal spring, interlocking teeth, rubberized grip, made for long/thick hair.",
       "note": "",
-      "addedSeq": 55
+      "addedSeq": 55,
+      "imgNote": ""
     },
     {
       "id": "grandelash-serum",
