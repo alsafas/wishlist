@@ -448,20 +448,6 @@
       "addedSeq": 33
     },
     {
-      "id": "nail-pusher-diane",
-      "category": "makeup",
-      "name": "Diane Two-Sided Cuticle Pusher",
-      "store": "Mat and Max",
-      "price": 9.99,
-      "want": 0,
-      "variant": "Two-sided",
-      "img": "assets/nail-pusher-diane.jpg",
-      "url": "https://www.matandmax.com/ca-en/brands/diane/manicure-equipment/diane-two-sided-cuticule-pusher.html",
-      "gtk": "Stainless steel, dual-ended.",
-      "note": "",
-      "addedSeq": 34
-    },
-    {
       "id": "starface-hydro-stars",
       "category": "makeup",
       "name": "Starface Hydro-Star Pimple Patches + Big Yellow",
