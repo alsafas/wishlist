@@ -988,13 +988,14 @@
       "name": "Cartman 15 lb Heated Weighted Blanket",
       "store": "Wayfair Canada",
       "price": 159.99,
-      "want": 0,
-      "variant": "15 lb · 60x80 · 10 heat settings",
+      "want": 3,
+      "variant": "plain colour NOT PLAID",
       "img": "assets/cartman-heated-weighted-blanket.jpg",
       "url": "https://www.wayfair.ca/CARTMAN--15-Lbs-Heated-Weighted-Blanket-for-Adults-60x80-10-Heat-Settings-19H-Auto-Shutoff-Milk-Velvet-Jacquard-Overheat-Safety-Protection-CCTM9035-L2239-K~CCTM9035.html",
       "gtk": "A true heated and weighted blanket: 15 lb, 10 heat settings, glass-bead fill, milk velvet and sherpa. Price and stock confirmed via the store listing only; brand quality unverified.",
       "note": "",
-      "addedSeq": 82
+      "addedSeq": 82,
+      "imgNote": ""
     },
     {
       "id": "apple-watch-series-12",
