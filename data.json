@@ -420,20 +420,6 @@
       "addedSeq": 31
     },
     {
-      "id": "nail-oil-cnd",
-      "category": "makeup",
-      "name": "CND SolarOil Nail and Cuticle Care, 0.5 oz",
-      "store": "Mat and Max",
-      "price": 11.99,
-      "want": 0,
-      "variant": "0.5 oz",
-      "img": "assets/nail-oil-cnd.jpg",
-      "url": "https://www.matandmax.com/ca-en/brands/cnd/treatments/cnd-solaroil-nail-and-cuticle-care-0-5oz.html",
-      "gtk": "Nail and cuticle oil, 0.5 oz.",
-      "note": "",
-      "addedSeq": 32
-    },
-    {
       "id": "nail-buffer-dixon",
       "category": "makeup",
       "name": "Dixon 3-Way Buffer, 100/180 grit, 10-pack",
