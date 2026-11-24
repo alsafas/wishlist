@@ -359,7 +359,8 @@
       "url": "https://supply.levelupbeauty.ca/products/sunuv-uv-led-nail-lamp-sun-1?variant=49787643265303",
       "gtk": "48W, 30 LED beads, 365nm UV plus 405nm LED, 5/30/60 second timers, auto sensor, removable base.",
       "note": "",
-      "addedSeq": 26
+      "addedSeq": 26,
+      "received": true
     },
     {
       "id": "nail-dust-collector",
