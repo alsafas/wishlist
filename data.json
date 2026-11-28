@@ -629,13 +629,14 @@
       "name": "KIKO Milano Lip Volume",
       "store": "Loja Glamourosa",
       "price": 14.65,
-      "want": 4,
+      "want": 3,
       "variant": "01 Tutu Rose",
       "img": "assets/kiko-lip-volume-tutu-rose.jpg",
       "url": "https://www.lojaglamourosa.com/ca/en/kiko-milano-lip-volume---kiko---01-tutu-rose---6-5ml-8025272645164",
       "gtk": "Tutu Rose is the shade of KIKO Lip Volume (plumping lip cream); Loja Glamourosa ships to Canada from Portugal.",
       "note": "",
-      "addedSeq": 51
+      "addedSeq": 51,
+      "imgNote": ""
     },
     {
       "id": "nyx-duck-plump-liner-nude-flip",
