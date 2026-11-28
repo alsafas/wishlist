@@ -1089,17 +1089,18 @@
     {
       "id": "custom-1795850450202",
       "name": "Ivy printer",
-      "store": "",
+      "store": "amazon",
       "price": 99.99,
       "want": 4,
       "variant": "blue",
-      "category": "clothes",
+      "category": "stationery",
       "note": "",
       "imgNote": "",
       "url": "https://a.co/d/07WeuvGH",
       "img": "https://m.media-amazon.com/images/G/15/marketing/prime/2022PrimeBrand/Logos/Prime_Logo_RGB_Prime_Blue_MASTER._CB542734715_.png",
       "added": true,
-      "addedSeq": 90
+      "addedSeq": 90,
+      "gtk": ""
     }
   ],
   "giftCards": [
